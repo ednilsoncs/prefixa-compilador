@@ -3,16 +3,47 @@
 Package simpleAdder ;
     
 Helpers
-    /* Our helpers */
-    digit = ['0' .. '9'] ;
-    sp = ' ' ;
-    nl = 10 ;
+    /* Our helpers */	
+    digito = ['0' .. '9'] ;
+    espaco = ' ';
+    rc = 13;
+    nl = 10;
+    all = [0 .. 0xffff];
+    letter = [['a' .. 'z'] + ['A' .. 'Z']];
+    semi = ';';
+    char = 'char';
+    int = 'int';
+ 
+ States
+  normal,
+  comment;
  
 Tokens
-    /* Our simple token definition(s). */
-    integer = digit+ sp*;
-    plus = '+' sp*;
-    semi = ';' nl?;
+  vazio = (espaco | rc | nl)+;
+  {normal} numero = digito+;
+  {normal} soma = '+';
+  {normal} menos = '-';
+  {normal} mult = '*';
+  {normal} div = '/';
+  {normal} mod = '%';
+  {normal} par_esq = '(';
+  {normal} par_dir = ')';
+  {normal} identifier = (letter | '_')*;
+   
+   
+   
+   {normal->comment, comment}
+          comment = '{';
+
+
+   {comment} comment_end = '}';
+   {comment} comment_body = [all -['*' + '/']]*;
+   {comment} star = '{';
+   {comment} slash = '}';
+
+Ignored Tokens
+     vazio, comment;
+   
  
 Productions
     /* Our super-simple grammar */

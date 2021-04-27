@@ -13,6 +13,7 @@ Helpers
     semi = ';';
     char = 'char';
     int = 'int';
+    
  
  States
   normal,
@@ -29,7 +30,14 @@ Tokens
   {normal} par_esq = '(';
   {normal} par_dir = ')';
   {normal} identifier = (letter | '_')*;
-   
+  {normal} start_block = 'start';
+  {normal} end_block =  'end';
+  {normal} if = 'if';
+  {normal} else = 'else';
+  {normal} while = 'while';
+  {normal} do = 'do';
+  {normal} for = 'for';
+  {normal} each = 'each';
    
    
    {normal->comment, comment}

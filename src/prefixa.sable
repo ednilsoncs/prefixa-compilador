@@ -33,10 +33,10 @@ Tokens
    
    
    {normal->comment, comment}
-          comment = '{';
+          comment = '{ | #';
 
 
-   {comment} comment_end = '}';
+   {comment} comment_end = '} | nl';
    {comment} comment_body = [all -['*' + '/']]*;
    {comment} star = '{';
    {comment} slash = '}';
@@ -45,6 +45,3 @@ Ignored Tokens
      vazio, comment;
    
  
-Productions
-    /* Our super-simple grammar */
-    program = [left]:integer plus [right]:integer semi;

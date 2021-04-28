@@ -16,7 +16,7 @@ Helpers
     
     name_part = letter (letter | digito)*;
     name = name_part ('_' name_part)*;
-    id = name;
+    
  
  States
   normal,
@@ -24,6 +24,7 @@ Helpers
  
 Tokens
   vazio = (espaco | rc | nl)+;
+  {normal} id = name;
   {normal} numero = digito+;
   {normal} soma = '+';
   {normal} menos = '-';

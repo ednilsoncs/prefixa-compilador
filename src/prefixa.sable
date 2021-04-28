@@ -1,6 +1,6 @@
 
 /* simpleAdder.sable - A very simple program that recognizes two integers being added. */
-Package simpleAdder ;
+Package prefixa ;
     
 Helpers
     /* Our helpers */	
@@ -29,7 +29,8 @@ Tokens
   {normal} mod = '%';
   {normal} par_esq = '(';
   {normal} par_dir = ')';
-  {normal} identifier = (letter | '_')*;
+  {normal} name = name_part ('_' name_part)*
+  {normal} name_part = letter (letter | digito)*;
   {normal} start_block = 'start';
   {normal} end_block =  'end';
   {normal} if = 'if';
@@ -38,6 +39,12 @@ Tokens
   {normal} do = 'do';
   {normal} for = 'for';
   {normal} each = 'each';
+  {normal} l_par = '(';
+  {normal} r_par = ')';
+  {normal} l_bracket = '[';
+  {normal} r_bracket = ']';
+  {normal} l_brace = '{';
+  {normal} r_brace = '}';
    
    
    {normal->comment, comment}

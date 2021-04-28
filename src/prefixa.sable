@@ -14,6 +14,9 @@ Helpers
     char = 'char';
     int = 'int';
     
+    name_part = letter (letter | digito)*;
+    name = name_part ('_' name_part)*;
+    id = name;
  
  States
   normal,
@@ -57,12 +60,8 @@ Tokens
 
 Ignored Tokens
      vazio, comment;
-   
-Productions
+
  
-   id = name;
-   name = name_part ('_' name_part)*;
-   name_part = letter (letter | number)*;
    
    
    

@@ -29,8 +29,7 @@ Tokens
   {normal} mod = '%';
   {normal} par_esq = '(';
   {normal} par_dir = ')';
-  {normal} name = name_part ('_' name_part)*
-  {normal} name_part = letter (letter | digito)*;
+  
   {normal} start_block = 'start';
   {normal} end_block =  'end';
   {normal} if = 'if';
@@ -59,4 +58,22 @@ Tokens
 Ignored Tokens
      vazio, comment;
    
+Productions
  
+   id = name;
+   name = name_part ('_' name_part)*;
+   name_part = letter (letter | number)*;
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   

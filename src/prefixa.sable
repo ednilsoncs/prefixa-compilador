@@ -15,6 +15,8 @@ Helpers
     name_part = letter (letter | digito | '_')*;
     name = name_part ('_' name_part)*;
     id = name;
+    not_new_line = [all - nl];
+    not_bracete_l = '{';
     
  
  States
@@ -23,68 +25,45 @@ Helpers
  
 Tokens
   vazio = (espaco | rc | nl)+;
-  {normal} atribuicao = '<<';
-  {normal} char = 'char';
-  {normal} int = 'integer';
-  {normal} variable = id;
-  {normal} numero = digito+;
-  {normal} soma = '+';
-  {normal} menos = '-';
-  {normal} mult = '*';
-  {normal} div = '/';
-  {normal} mod = '%';
-  {normal} par_esq = '(';
-  {normal} par_dir = ')';
-  {normal} comma = ',';
+   atribuicao = '<<';
+   char = 'char';
+   int = 'integer';
+   variable = id;
+   numero = digito+;
+   soma = '+';
+   menos = '-';
+   mult = '*';
+   div = '/';
+   mod = '%';
+   par_esq = '(';
+   par_dir = ')';
+   comma = ',';
   
-  {normal} start_block = 'start';
-  {normal} end_block =  'end';
-  {normal} if = 'if';
-  {normal} else = 'else';
-  {normal} while = 'while';
-  {normal} do = 'do';
-  {normal} for = 'for';
-  {normal} each = 'each';
-  {normal} l_par = '(';
-  {normal} r_par = ')';
-  {normal} l_bracket = '[';
-  {normal} r_bracket = ']';
-  {normal} l_brace = '{';
-  {normal} r_brace = '}';
-  {normal} eq = '==';
-  {normal} neq = '!=';
-  {normal} lt = '<';
-  {normal} lteq = '<=';
-  {normal} gt = '>';
-  {normal} gteq = '>=';
-  {normal} semicolon = ';';
-  {normal} scan =  'scan';
-  {normal} print = 'print';
-   
-   
-   {normal->comment, comment}
-          comment = '{ | (#)*';
-          
-   {comment} comment_end = '} | nl';
-   {comment} comment_body = [all -['*' + '/']]*;
-   {comment} star = '{';
-   {comment} slash = '}';
+   start_block = 'start';
+   end_block =  'end';
+   if = 'if';
+   else = 'else';
+   while = 'while';
+   do = 'do';
+   for = 'for';
+   each = 'each';
+   l_par = '(';
+   r_par = ')';
+   l_bracket = '[';
+   r_bracket = ']';
+   l_brace = '{';
+   r_brace = '}';
+   eq = '==';
+   neq = '!=';
+   lt = '<';
+   lteq = '<=';
+   gt = '>';
+   gteq = '>=';
+   semicolon = ';';
+   scan =  'scan';
+   print = 'print';
+   comments = '#'(not_new_line)* nl; 
+   long_comment = '{' (not_bracete_l*) '}';
 
 Ignored Tokens
-     vazio, comment;
-
- 
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
+     vazio, comments, long_comment;

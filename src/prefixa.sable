@@ -10,12 +10,11 @@ Helpers
     nl = 10;
     all = [0 .. 0xffff];
     letter = [['a' .. 'z'] + ['A' .. 'Z']];
-    semi = ';';
-    char = 'char';
-    int = 'int';
+   
     
-    name_part = letter (letter | digito)*;
+    name_part = letter (letter | digito | '_')*;
     name = name_part ('_' name_part)*;
+    id = name;
     
  
  States
@@ -24,7 +23,10 @@ Helpers
  
 Tokens
   vazio = (espaco | rc | nl)+;
-  {normal} id = name;
+  {normal} atribuicao = '<<';
+  {normal} char = 'char';
+  {normal} int = 'integer';
+  {normal} variable = id;
   {normal} numero = digito+;
   {normal} soma = '+';
   {normal} menos = '-';
@@ -33,6 +35,7 @@ Tokens
   {normal} mod = '%';
   {normal} par_esq = '(';
   {normal} par_dir = ')';
+  {normal} comma = ',';
   
   {normal} start_block = 'start';
   {normal} end_block =  'end';
@@ -48,12 +51,20 @@ Tokens
   {normal} r_bracket = ']';
   {normal} l_brace = '{';
   {normal} r_brace = '}';
+  {normal} eq = '==';
+  {normal} neq = '!=';
+  {normal} lt = '<';
+  {normal} lteq = '<=';
+  {normal} gt = '>';
+  {normal} gteq = '>=';
+  {normal} semicolon = ';';
+  {normal} scan =  'scan';
+  {normal} print = 'print';
    
    
    {normal->comment, comment}
-          comment = '{ | #';
-
-
+          comment = '{ | (#)*';
+          
    {comment} comment_end = '} | nl';
    {comment} comment_body = [all -['*' + '/']]*;
    {comment} star = '{';

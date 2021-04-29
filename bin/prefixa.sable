@@ -1,6 +1,6 @@
 
 /* simpleAdder.sable - A very simple program that recognizes two integers being added. */
-Package simpleAdder ;
+Package prefixa ;
     
 Helpers
     /* Our helpers */	
@@ -10,9 +10,14 @@ Helpers
     nl = 10;
     all = [0 .. 0xffff];
     letter = [['a' .. 'z'] + ['A' .. 'Z']];
-    semi = ';';
-    char = 'char';
-    int = 'int';
+   
+    
+    name_part = letter (letter | digito | '_')*;
+    name = name_part ('_' name_part)*;
+    id = name;
+    not_new_line = [all - nl];
+    not_bracete_l = '{';
+    
  
  States
   normal,
@@ -20,31 +25,61 @@ Helpers
  
 Tokens
   vazio = (espaco | rc | nl)+;
-  {normal} numero = digito+;
-  {normal} soma = '+';
-  {normal} menos = '-';
-  {normal} mult = '*';
-  {normal} div = '/';
-  {normal} mod = '%';
-  {normal} par_esq = '(';
-  {normal} par_dir = ')';
-  {normal} identifier = (letter | '_')*;
-   
-   
-   
-   {normal->comment, comment}
-          comment = '{';
-
-
-   {comment} comment_end = '}';
-   {comment} comment_body = [all -['*' + '/']]*;
-   {comment} star = '{';
-   {comment} slash = '}';
+   atribuicao = '<<';
+   char = 'char';
+   int = 'integer';
+   variable = id;
+   numero = digito+;
+   soma = '+';
+   menos = '-';
+   mult = '*';
+   div = '/';
+   mod = '%';
+   par_esq = '(';
+   par_dir = ')';
+   comma = ',';
+  
+   start_block = 'start';
+   end_block =  'end';
+   if = 'if';
+   else = 'else';
+   while = 'while';
+   do = 'do';
+   for = 'for';
+   each = 'each';
+   l_par = '(';
+   r_par = ')';
+   l_bracket = '[';
+   r_bracket = ']';
+   l_brace = '{';
+   r_brace = '}';
+   eq = '==';
+   neq = '!=';
+   lt = '<';
+   lteq = '<=';
+   gt = '>';
+   gteq = '>=';
+   semicolon = ';';
+   scan =  'scan';
+   print = 'print';
+   comments = '#'(not_new_line)* nl; 
+   long_comment = '{' (not_bracete_l*) '}';
 
 Ignored Tokens
-     vazio, comment;
-   
+     vazio, comments, long_comment;
+
  
-Productions
-    /* Our super-simple grammar */
-    program = [left]:integer plus [right]:integer semi;
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   

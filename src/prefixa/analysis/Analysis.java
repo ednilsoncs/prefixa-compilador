@@ -16,7 +16,6 @@ public interface Analysis extends Switch
     void caseTChar(TChar node);
     void caseTInt(TInt node);
     void caseTVariable(TVariable node);
-    void caseTNumero(TNumero node);
     void caseTSoma(TSoma node);
     void caseTMenos(TMenos node);
     void caseTMult(TMult node);
@@ -26,6 +25,7 @@ public interface Analysis extends Switch
     void caseTParDir(TParDir node);
     void caseTComma(TComma node);
     void caseTDoubleDot(TDoubleDot node);
+    void caseTBoolType(TBoolType node);
     void caseTStartBlock(TStartBlock node);
     void caseTEndBlock(TEndBlock node);
     void caseTIf(TIf node);
@@ -52,5 +52,8 @@ public interface Analysis extends Switch
     void caseTString(TString node);
     void caseTComments(TComments node);
     void caseTLongComment(TLongComment node);
+    void caseTIntType(TIntType node);
+    void caseTRealType(TRealType node);
+    void caseTId(TId node);
     void caseEOF(EOF node);
 }

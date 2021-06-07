@@ -89,11 +89,6 @@ public class AnalysisAdapter implements Analysis
         defaultCase(node);
     }
 
-    public void caseTNumero(TNumero node)
-    {
-        defaultCase(node);
-    }
-
     public void caseTSoma(TSoma node)
     {
         defaultCase(node);
@@ -135,6 +130,11 @@ public class AnalysisAdapter implements Analysis
     }
 
     public void caseTDoubleDot(TDoubleDot node)
+    {
+        defaultCase(node);
+    }
+
+    public void caseTBoolType(TBoolType node)
     {
         defaultCase(node);
     }
@@ -265,6 +265,21 @@ public class AnalysisAdapter implements Analysis
     }
 
     public void caseTLongComment(TLongComment node)
+    {
+        defaultCase(node);
+    }
+
+    public void caseTIntType(TIntType node)
+    {
+        defaultCase(node);
+    }
+
+    public void caseTRealType(TRealType node)
+    {
+        defaultCase(node);
+    }
+
+    public void caseTId(TId node)
     {
         defaultCase(node);
     }

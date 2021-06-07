@@ -4,19 +4,23 @@ Package prefixa ;
 Helpers
     /* Our helpers */	
     digito = ['0' .. '9'] ;
+    hex_digit = digito | ['a'..'f'] | ['A'..'F'];
     espaco = ' ';
     rc = 13;
     nl = 10;
     all = [0 .. 0xffff];
     letter = [['a' .. 'z'] + ['A' .. 'Z']];
    	tab = 9;
-    
+    dot = '.';
+    expo = 'E';
     name_part = letter (letter | digito | '_')*;
     name = name_part ('_' name_part)*;
     id = name;
     not_new_line = [all - nl];
     not_bracete_l = '{';
     not_new_aspa = [all - '"'];
+    number = digito+;
+    hex_number = '0x' hex_digit+;
  
  States
   normal,
@@ -25,10 +29,19 @@ Helpers
 Tokens
    vazio = (espaco | rc | nl | tab)+;
    atribuicao = '<<';
-   char = 'char';
-   int = 'integer';
-   variable = id;
-   numero = digito+;
+   char_id = 'char';
+   int_id = 'integer';
+   bool_id = 'bool';
+   real_id = 'real';
+   if_id = 'if';
+   else_id = 'else';
+   start_block_id = 'start';
+   end_block_id =  'end';
+   not_id = 'not';
+   and_id = 'and';
+   or_id = 'or';
+   comma = ',';
+   
    soma = '+';
    menos = '-';
    mult = '*';
@@ -36,13 +49,8 @@ Tokens
    mod = '%';
    par_esq = '(';
    par_dir = ')';
-   comma = ',';
    double_dot = ':';
-  
-   start_block = 'start';
-   end_block =  'end';
-   if = 'if';
-   else = 'else';
+   bool_type = 'true' | 'false';
    while = 'while';
    do = 'do';
    for = 'for';
@@ -53,11 +61,11 @@ Tokens
    r_bracket = ']';
    l_brace = '{';
    r_brace = '}';
-   eq = '==';
+   igual = '==';
    neq = '!=';
-   lt = '<';
-   lteq = '<=';
-   gt = '>';
+   menor = '<';
+   menor_igual = '<=';
+   maior_igual = '>';
    gteq = '>=';
    semicolon = ';';
    scan =  'scan';
@@ -65,6 +73,47 @@ Tokens
    string = '"'(not_new_aspa)* '"';
    comments = '#'(not_new_line)* nl; 
    long_comment = '{' (not_bracete_l*) '}';
+   int_type = number | hex_number;
+   real_type = '-'? (number dot number | number (dot number)? expo '-'? number);
+   id = (letter | '_')+;
 
 Ignored Tokens
      vazio, comments, long_comment;
+     
+
+Productions
+
+type =  {int} int_id | {bool} bool_id | {real} real_id | {char} char_id;
+
+valor = {int} int_type | {real} real_type | {bool} bool_type | {var} id;
+
+type_list = type | type comma;
+
+condicional = {if} if_id condicao bloco | {ifelse} condicional else_id bloco;
+
+condicao = 
+	 bool_type
+	| {eq} valor igual
+	| {mq} valor maior
+	| {mn} valor menor
+	| {mneq} valor menor_igual
+	| {mqeq} valor maior_igual
+	| {neg} not_id condicao  
+	| {and} condicao and
+	| {or} condicao or
+	| {cond} l_par condicao r_par;
+
+igual = {eq} equals valor;
+
+maior = {mq} g_than valor;
+
+menor = {mn} l_than valor;
+
+and = {and} and_id condicao;
+
+or = {or} or_id condicao;
+
+
+
+
+     

@@ -64,6 +64,216 @@ public class AnalysisAdapter implements Analysis
         }
     }
 
+    public void caseStart(Start node)
+    {
+        defaultCase(node);
+    }
+
+    public void caseAIntType(AIntType node)
+    {
+        defaultCase(node);
+    }
+
+    public void caseABoolType(ABoolType node)
+    {
+        defaultCase(node);
+    }
+
+    public void caseARealType(ARealType node)
+    {
+        defaultCase(node);
+    }
+
+    public void caseACharType(ACharType node)
+    {
+        defaultCase(node);
+    }
+
+    public void caseAIntValor(AIntValor node)
+    {
+        defaultCase(node);
+    }
+
+    public void caseARealValor(ARealValor node)
+    {
+        defaultCase(node);
+    }
+
+    public void caseABoolValor(ABoolValor node)
+    {
+        defaultCase(node);
+    }
+
+    public void caseAVarValor(AVarValor node)
+    {
+        defaultCase(node);
+    }
+
+    public void caseAUnicoTypeList(AUnicoTypeList node)
+    {
+        defaultCase(node);
+    }
+
+    public void caseAVariosTypeList(AVariosTypeList node)
+    {
+        defaultCase(node);
+    }
+
+    public void caseAIfCondicional(AIfCondicional node)
+    {
+        defaultCase(node);
+    }
+
+    public void caseAIfelseCondicional(AIfelseCondicional node)
+    {
+        defaultCase(node);
+    }
+
+    public void caseACondicao(ACondicao node)
+    {
+        defaultCase(node);
+    }
+
+    public void caseAEqCondicao(AEqCondicao node)
+    {
+        defaultCase(node);
+    }
+
+    public void caseAMqCondicao(AMqCondicao node)
+    {
+        defaultCase(node);
+    }
+
+    public void caseAMnCondicao(AMnCondicao node)
+    {
+        defaultCase(node);
+    }
+
+    public void caseAMneqCondicao(AMneqCondicao node)
+    {
+        defaultCase(node);
+    }
+
+    public void caseAMaeqCondicao(AMaeqCondicao node)
+    {
+        defaultCase(node);
+    }
+
+    public void caseANegCondicao(ANegCondicao node)
+    {
+        defaultCase(node);
+    }
+
+    public void caseAAndCondicao(AAndCondicao node)
+    {
+        defaultCase(node);
+    }
+
+    public void caseAOrCondicao(AOrCondicao node)
+    {
+        defaultCase(node);
+    }
+
+    public void caseACondCondicao(ACondCondicao node)
+    {
+        defaultCase(node);
+    }
+
+    public void caseAEqIgual(AEqIgual node)
+    {
+        defaultCase(node);
+    }
+
+    public void caseAMqMaior(AMqMaior node)
+    {
+        defaultCase(node);
+    }
+
+    public void caseAMnMenor(AMnMenor node)
+    {
+        defaultCase(node);
+    }
+
+    public void caseAMneqMenorIgual(AMneqMenorIgual node)
+    {
+        defaultCase(node);
+    }
+
+    public void caseAMaeqMaiorIgual(AMaeqMaiorIgual node)
+    {
+        defaultCase(node);
+    }
+
+    public void caseAAndAnd(AAndAnd node)
+    {
+        defaultCase(node);
+    }
+
+    public void caseAOrOr(AOrOr node)
+    {
+        defaultCase(node);
+    }
+
+    public void caseABlocoBloco(ABlocoBloco node)
+    {
+        defaultCase(node);
+    }
+
+    public void caseAFunctionDeclaration(AFunctionDeclaration node)
+    {
+        defaultCase(node);
+    }
+
+    public void caseAIdentifierFunctionDeclaration(AIdentifierFunctionDeclaration node)
+    {
+        defaultCase(node);
+    }
+
+    public void caseAPointerFunctionDeclarator(APointerFunctionDeclarator node)
+    {
+        defaultCase(node);
+    }
+
+    public void caseADirectFunctionDeclarator(ADirectFunctionDeclarator node)
+    {
+        defaultCase(node);
+    }
+
+    public void caseADirectPointerFunction(ADirectPointerFunction node)
+    {
+        defaultCase(node);
+    }
+
+    public void caseAPointerPointerFunction(APointerPointerFunction node)
+    {
+        defaultCase(node);
+    }
+
+    public void caseAIdentifierDirectFunctionDeclarator(AIdentifierDirectFunctionDeclarator node)
+    {
+        defaultCase(node);
+    }
+
+    public void caseAFunctionDirectFunctionDeclarator(AFunctionDirectFunctionDeclarator node)
+    {
+        defaultCase(node);
+    }
+
+    public void caseAParameterList(AParameterList node)
+    {
+        defaultCase(node);
+    }
+
+    public void caseAParameterListTail(AParameterListTail node)
+    {
+        defaultCase(node);
+    }
+
+    public void caseAParameterDeclaration(AParameterDeclaration node)
+    {
+        defaultCase(node);
+    }
+
     public void caseTVazio(TVazio node)
     {
         defaultCase(node);
@@ -74,17 +284,62 @@ public class AnalysisAdapter implements Analysis
         defaultCase(node);
     }
 
-    public void caseTChar(TChar node)
+    public void caseTCharId(TCharId node)
     {
         defaultCase(node);
     }
 
-    public void caseTInt(TInt node)
+    public void caseTIntId(TIntId node)
     {
         defaultCase(node);
     }
 
-    public void caseTVariable(TVariable node)
+    public void caseTBoolId(TBoolId node)
+    {
+        defaultCase(node);
+    }
+
+    public void caseTRealId(TRealId node)
+    {
+        defaultCase(node);
+    }
+
+    public void caseTIfId(TIfId node)
+    {
+        defaultCase(node);
+    }
+
+    public void caseTElseId(TElseId node)
+    {
+        defaultCase(node);
+    }
+
+    public void caseTStartBlockId(TStartBlockId node)
+    {
+        defaultCase(node);
+    }
+
+    public void caseTEndBlockId(TEndBlockId node)
+    {
+        defaultCase(node);
+    }
+
+    public void caseTNotId(TNotId node)
+    {
+        defaultCase(node);
+    }
+
+    public void caseTAndId(TAndId node)
+    {
+        defaultCase(node);
+    }
+
+    public void caseTOrId(TOrId node)
+    {
+        defaultCase(node);
+    }
+
+    public void caseTComma(TComma node)
     {
         defaultCase(node);
     }
@@ -124,37 +379,12 @@ public class AnalysisAdapter implements Analysis
         defaultCase(node);
     }
 
-    public void caseTComma(TComma node)
-    {
-        defaultCase(node);
-    }
-
     public void caseTDoubleDot(TDoubleDot node)
     {
         defaultCase(node);
     }
 
     public void caseTBoolType(TBoolType node)
-    {
-        defaultCase(node);
-    }
-
-    public void caseTStartBlock(TStartBlock node)
-    {
-        defaultCase(node);
-    }
-
-    public void caseTEndBlock(TEndBlock node)
-    {
-        defaultCase(node);
-    }
-
-    public void caseTIf(TIf node)
-    {
-        defaultCase(node);
-    }
-
-    public void caseTElse(TElse node)
     {
         defaultCase(node);
     }
@@ -209,32 +439,27 @@ public class AnalysisAdapter implements Analysis
         defaultCase(node);
     }
 
-    public void caseTEq(TEq node)
+    public void caseTIgualQue(TIgualQue node)
     {
         defaultCase(node);
     }
 
-    public void caseTNeq(TNeq node)
+    public void caseTMenorQue(TMenorQue node)
     {
         defaultCase(node);
     }
 
-    public void caseTLt(TLt node)
+    public void caseTMenorIgualQue(TMenorIgualQue node)
     {
         defaultCase(node);
     }
 
-    public void caseTLteq(TLteq node)
+    public void caseTMaiorQue(TMaiorQue node)
     {
         defaultCase(node);
     }
 
-    public void caseTGt(TGt node)
-    {
-        defaultCase(node);
-    }
-
-    public void caseTGteq(TGteq node)
+    public void caseTMaiorIgualQue(TMaiorIgualQue node)
     {
         defaultCase(node);
     }
@@ -279,7 +504,7 @@ public class AnalysisAdapter implements Analysis
         defaultCase(node);
     }
 
-    public void caseTId(TId node)
+    public void caseTIdentifier(TIdentifier node)
     {
         defaultCase(node);
     }

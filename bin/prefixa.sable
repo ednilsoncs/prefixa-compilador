@@ -20,6 +20,7 @@ Helpers
     not_bracete_l = '{';
     not_new_aspa = [all - '"'];
     number = digito+;
+    nondigit = ['_' + [['a' .. 'z'] + ['A' .. 'Z']]];
     hex_number = '0x' hex_digit+;
  
  States
@@ -61,12 +62,11 @@ Tokens
    r_bracket = ']';
    l_brace = '{';
    r_brace = '}';
-   igual = '==';
-   neq = '!=';
-   menor = '<';
-   menor_igual = '<=';
-   maior_igual = '>';
-   gteq = '>=';
+   igual_que = '=';
+   menor_que = '<';
+   menor_igual_que = '<=';
+   maior_que = '>';
+   maior_igual_que = '>=';
    semicolon = ';';
    scan =  'scan';
    print = 'print';
@@ -75,7 +75,7 @@ Tokens
    long_comment = '{' (not_bracete_l*) '}';
    int_type = number | hex_number;
    real_type = '-'? (number dot number | number (dot number)? expo '-'? number);
-   id = (letter | '_')+;
+   identifier = nondigit (digito | nondigit)*;
 
 Ignored Tokens
      vazio, comments, long_comment;
@@ -85,9 +85,10 @@ Productions
 
 type =  {int} int_id | {bool} bool_id | {real} real_id | {char} char_id;
 
-valor = {int} int_type | {real} real_type | {bool} bool_type | {var} id;
+valor = {int} int_type | {real} real_type | {bool} bool_type | {var} identifier;
 
-type_list = type | type comma;
+type_list = {unico} type | {varios} type comma [types]:type_list;
+
 
 condicional = {if} if_id condicao bloco | {ifelse} condicional else_id bloco;
 
@@ -97,21 +98,71 @@ condicao =
 	| {mq} valor maior
 	| {mn} valor menor
 	| {mneq} valor menor_igual
-	| {mqeq} valor maior_igual
+	| {maeq} valor maior_igual
 	| {neg} not_id condicao  
 	| {and} condicao and
 	| {or} condicao or
 	| {cond} l_par condicao r_par;
 
-igual = {eq} equals valor;
+igual = {eq} igual_que valor;
 
-maior = {mq} g_than valor;
+maior = {mq} maior_que valor;
 
-menor = {mn} l_than valor;
+menor = {mn} menor_que valor;
+
+menor_igual = {mneq} menor_igual_que valor;
+
+maior_igual = {maeq} maior_igual_que valor;
 
 and = {and} and_id condicao;
 
 or = {or} or_id condicao;
+
+
+bloco = 
+	{bloco} start_block_id function_declaration end_block_id ;
+
+
+function_declaration = type function_declarator semicolon | {identifier} identifier function_declarator semicolon;
+
+
+function_declarator =  {pointer} pointer_function | {direct} direct_function_declarator;
+
+pointer_function =
+{direct} atribuicao direct_function_declarator |
+{pointer} atribuicao pointer_function;
+
+
+direct_function_declarator =
+	{identifier} identifier l_par parameter_list? r_par |
+	{function} [plp]:l_par pointer_function [prp]:r_par [pllp]:l_par
+	parameter_list? [plrp]:r_par;
+
+
+parameter_list =
+	parameter_declaration parameter_list_tail*;
+
+parameter_list_tail =
+	comma parameter_declaration;
+
+parameter_declaration =
+	type valor;
+
+
+expr =
+   {fator} fator 
+  |{soma} expr soma fator 
+  |{menos} expr menos fator;
+
+fator =
+   {termo} termo 
+  |{mult} fator mult termo 
+  |{div} fator div termo 
+  |{mod} fator mod termo;
+  
+termo = {number} number | {par} par_esq expr par_dir;
+
+
 
 
 

@@ -68,6 +68,7 @@ Tokens
    maior_que = '>';
    maior_igual_que = '>=';
    semicolon = ';';
+   return = 'send back';
    scan =  'scan';
    print = 'print';
    string = '"'(not_new_aspa)* '"';
@@ -151,20 +152,50 @@ parameter_declaration =
 
 expr =
    {fator} fator 
-  |{soma} expr soma fator 
-  |{menos} expr menos fator;
+  |{soma} soma expr fator 
+  |{menos} menos expr fator;
 
 fator =
    {termo} termo 
-  |{mult} fator mult termo 
-  |{div} fator div termo 
-  |{mod} fator mod termo;
+  |{mult} mult fator termo 
+  |{div} div fator termo 
+  |{mod} mod fator termo;
   
 termo = {number} number | {par} par_esq expr par_dir;
 
 
 
+statement =
+{comp_stmt} compound_statement |
+{basic_stmt} basic_statement semicolon |
+{if} if l_par condicional r_par compound_statement |
+{if_then_else} if l_par condicional r_par [then_comp_stmt]:compound_statement
+else [else_comp_stmt]:compound_statement |
+{if_else} if l_par condicional r_par semicolon else compound_statement |
+{while} while l_par condicional r_par compound_statement |
+{for} for l_par [start]:basic_statement? [sc_one]:semicolon condicional?
+[sc_two]:semicolon [iter]:basic_statement? r_par compound_statement
+
+basic_statement =
+{call_expression} call_expression |
+{modify_expression} modify_expression |
+
+compound_statement = l_brace statement* stop_statement? r_brace;
+
+stop_statement =
+{return} return semicolon dead_code* |
+{return_value} return valor semicolon dead_code*
+{return_par} return l_par value r_par semicolon dead_code*;
 
 
+dead_code =
+{dead1} statement |
+{dead3} return semicolon |
+{dead4} return value semicolon |
+{dead5} return l_par value r_par semicolon;
 
-     
+call_expression =
+   identifier l_par parameter_list? r_par;     
+
+modify_expression =
+{direct} identifier atribuicao rhs  ;

@@ -5,6 +5,7 @@ Helpers
     /* Our helpers */	
     digito = ['0' .. '9'] ;
     hex_digit = digito | ['a'..'f'] | ['A'..'F'];
+    digito_bin = '0' | '1' ;
     espaco = ' ';
     rc = 13;
     nl = 10;
@@ -19,8 +20,10 @@ Helpers
     not_new_line = [all - nl];
     not_bracete_l = '{';
     not_new_aspa = [all - '"'];
+    not_new_simples_aspa = [all - '''];
     number = digito+;
     nondigit = ['_' + [['a' .. 'z'] + ['A' .. 'Z']]];
+    number_bin = ('0B' | '0b') digito_bin+ ;
     hex_number = '0x' hex_digit+;
  
  States
@@ -34,6 +37,7 @@ Tokens
    int_id = 'integer';
    bool_id = 'bool';
    real_id = 'real';
+   barra_id = '|';
    if_id = 'if';
    else_id = 'else';
    start_block_id = 'start';
@@ -42,20 +46,18 @@ Tokens
    and_id = 'and';
    or_id = 'or';
    comma = ',';
+   none_id = 'none';
    
    soma = '+';
    menos = '-';
    mult = '*';
    div = '/';
    mod = '%';
-   par_esq = '(';
-   par_dir = ')';
    double_dot = ':';
    bool_type = 'true' | 'false';
    while = 'while';
    do = 'do';
-   for = 'for';
-   each = 'each';
+   foreach = 'for each';
    l_par = '(';
    r_par = ')';
    l_bracket = '[';
@@ -68,15 +70,22 @@ Tokens
    maior_que = '>';
    maior_igual_que = '>=';
    semicolon = ';';
+   true_id = 'true' ;
+   false_id = 'false' ;
+   vector_id = 'vetor';
    return = 'send back';
    scan =  'scan';
    print = 'print';
    string = '"'(not_new_aspa)* '"';
+   char_var = ''' (not_new_simples_aspa)* ''' ; 
    comments = '#'(not_new_line)* nl; 
    long_comment = '{' (not_bracete_l*) '}';
    int_type = number | hex_number;
    real_type = '-'? (number dot number | number (dot number)? expo '-'? number);
    identifier = nondigit (digito | nondigit)*;
+   number = '-'? number ;
+   numero_bin = '-'? number_bin ;
+   hex_number = hex_number;
 
 Ignored Tokens
      vazio, comments, long_comment;
@@ -84,118 +93,87 @@ Ignored Tokens
 
 Productions
 
-type =  {int} int_id | {bool} bool_id | {real} real_id | {char} char_id;
+programa = decl_var* decl_func* ;
+
+
+decl_func = tipo_retorno_func identifier l_par decl_parametros? r_par bloco_funcao ;
+
+
+decl_parametros = decl_parametro decl_param_adicional* ;
+decl_param_adicional = barra_id decl_parametro ;
+decl_parametro = tipo identifier ;
+ 
+parametros = stmt param_adicional* ;
+param_adicional = barra_id stmt ;
+
+
+tipo_retorno_func = {tipo} tipo
+ 			  | {none} none_id;
+
+decl_var = tipo identifier id_adicional* semicolon ;
+
+
+id_adicional = comma identifier ;
+
+
+tipo = {tipo_base} tipo_base
+      | {vector} vector_id tipo_base l_bracket stmt r_bracket ;
+
+tipo_base = {int}  int_id 
+ 	       | {char} char_id
+ 	       | {bool} bool_id ;
+
+comando_atrib = var atribuicao stmt ;
+
 
 valor = {int} int_type | {real} real_type | {bool} bool_type | {var} identifier;
 
-type_list = {unico} type | {varios} type comma [types]:type_list;
 
+stmt = {op} opr
+      | {exp_un} exp_un ;
 
-condicional = {if} if_id condicao bloco | {ifelse} condicional else_id bloco;
+opr = {mais}    soma stmt [stmt_l]:stmt
+	 | {menos}   menos stmt [stmt_l]:stmt
+	 | {vezes}   mult stmt [stmt_l]:stmt
+	 | {frac}    div stmt [stmt_l]:stmt
+	 | {igual}   igual_que stmt [stmt_l]:stmt
+     | {meigual} menor_igual_que stmt [stmt_l]:stmt
+     | {maigual} maior_igual_que stmt [stmt_l]:stmt
+     | {menor}   menor_que stmt [stmt_l]:stmt
+     | {maior}   maior_que stmt [stmt_l]:stmt
+     | {and}     and_id stmt [stmt_l]:stmt
+     | {or}      or_id stmt [stmt_l]:stmt 
+     | {not}     not_id stmt ;
 
-condicao = 
-	 bool_type
-	| {eq} valor igual
-	| {mq} valor maior
-	| {mn} valor menor
-	| {mneq} valor menor_igual
-	| {maeq} valor maior_igual
-	| {neg} not_id condicao  
-	| {and} condicao and
-	| {or} condicao or
-	| {cond} l_par condicao r_par;
+exp_un = {nomevar} var
+      //| {parnts}  l_par stmt r_par
+        | {chamada} chamada   
+        | {constan} constante;
 
-igual = {eq} igual_que valor;
+chamada = identifier l_par parametros? r_par ;
 
-maior = {mq} maior_que valor;
+var = {vetor} identifier l_bracket stmt r_bracket
+     | {id}    identifier ; 
 
-menor = {mn} menor_que valor;
+comando = {if}       if_id l_par stmt r_par comando else_id [elsecomando]:comando
+ 		 | {while}    while l_par stmt r_par comando
+ 		 | {foreach}  foreach l_par tipo identifier double_dot [vectorid]:identifier r_par comando
+ 		 | {bloco}    bloco 
+ 		 | {sendback} exp_return
+ 		 | {patrib}   comando_atrib semicolon
+       | {chamada}  chamada semicolon ;   
 
-menor_igual = {mneq} menor_igual_que valor;
-
-maior_igual = {maeq} maior_igual_que valor;
-
-and = {and} and_id condicao;
-
-or = {or} or_id condicao;
-
-
-bloco = 
-	{bloco} start_block_id function_declaration end_block_id ;
-
-
-function_declaration = type function_declarator semicolon | {identifier} identifier function_declarator semicolon;
-
-
-function_declarator =  {pointer} pointer_function | {direct} direct_function_declarator;
-
-pointer_function =
-{direct} atribuicao direct_function_declarator |
-{pointer} atribuicao pointer_function;
-
-
-direct_function_declarator =
-	{identifier} identifier l_par parameter_list? r_par |
-	{function} [plp]:l_par pointer_function [prp]:r_par [pllp]:l_par
-	parameter_list? [plrp]:r_par;
-
-
-parameter_list =
-	parameter_declaration parameter_list_tail*;
-
-parameter_list_tail =
-	comma parameter_declaration;
-
-parameter_declaration =
-	type valor;
-
-
-expr =
-   {fator} fator 
-  |{soma} soma expr fator 
-  |{menos} menos expr fator;
-
-fator =
-   {termo} termo 
-  |{mult} mult fator termo 
-  |{div} div fator termo 
-  |{mod} mod fator termo;
+bloco = start_block_id decl_var* comando* end_block_id ;
+ 
+bloco_funcao = start_block_id decl_var* comando* exp_return end_block_id ;
   
-termo = {number} number | {par} par_esq expr par_dir;
+exp_return = return stmt? semicolon ;
 
 
-
-statement =
-   {comp_stmt} compound_statement |
-   {basic_stmt} basic_statement semicolon |
-   {if} if l_par condicional r_par compound_statement |
-   {if_then_else} if l_par condicional r_par [then_comp_stmt]:compound_statement
-   else [else_comp_stmt]:compound_statement |
-   {if_else} if l_par condicional r_par semicolon else compound_statement |
-   {while} while l_par condicional r_par compound_statement |
-   {for} for l_par [start]:basic_statement? [sc_one]:semicolon condicional?
-   [sc_two]:semicolon [iter]:basic_statement? r_par compound_statement
-
-basic_statement =
-   {call_expression} call_expression |
-   {modify_expression} modify_expression |
-
-compound_statement = l_brace statement* stop_statement? r_brace;
-
-stop_statement =
-   {return} return semicolon dead_code* |
-   {return_value} return valor semicolon dead_code*
-   {return_par} return l_par value r_par semicolon dead_code*;
-
-
-dead_code =
-{dead1} statement |
-{dead3} return semicolon |
-{dead4} return value semicolon |
-{dead5} return l_par value r_par semicolon;
-
-call_expression =
-   identifier l_par parameter_list? r_par;     
-
-modify_expression =
-   {direct} identifier atribuicao;
+ constante = {intdec}  number
+ 	 	   | {intbin}    numero_bin
+ 		   | {inthex}    hex_number 
+ 		   | {char}      char_var
+ 		   | {string}    string 
+ 		   | {booltrue}  true_id
+ 		   | {boolfalse} false_id ;

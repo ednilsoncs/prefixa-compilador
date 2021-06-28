@@ -93,31 +93,33 @@ Ignored Tokens
 
 Productions
 
-programa = decl_var* decl_func* ;
+programa {-> programa } = decl_var* decl_func* {-> New programa ([decl_var], [decl_func]) };
 
 
-decl_func = tipo_retorno_func identifier l_par decl_parametros? r_par bloco_funcao ;
+decl_func {-> decl_func } = 
+	 {tipo} 	   tipo identificador l_par r_par bloco_funcao					{-> New decl_func.tipo (tipo, identifier, Null, bloco_funcao) }   
+	|{none} 	   none_id identifier l_par r_par bloco_funcao 					{-> New decl_func.none (none, identifier, Null, bloco_funcao) }   
+	|{tipo_params} tipo identifier l_par decl_parametros r_par bloco_funcao 	{-> New decl_func.tipo (tipo, identifier, decl_parametros, bloco_funcao) }   
+	|{none_params} none_id identifier l_par decl_parametros r_par bloco_funcao 	{-> New decl_func.none (none, identifier, decl_parametros, bloco_funcao) }  
+    ;
 
 
-decl_parametros = decl_parametro decl_param_adicional* ;
-decl_param_adicional = barra_id decl_parametro ;
-decl_parametro = tipo identifier ;
+decl_parametros {-> decl_parametros } = decl_parametro decl_param_adicional* {-> New decl_parametros (tipo, identifier, [decl_param_adicional]) };
+decl_param_adicional { -> decl_param_adicional } = barra_id decl_parametro {-> New decl_param_adicional (decl_parametro) } ;
+decl_parametro {-> decl_parametro } = tipo identifier {-> New decl_parametro (tipo, identifier) } ;
  
-parametros = stmt param_adicional* ;
-param_adicional = barra_id stmt ;
+parametros {-> parametros } = stmt param_adicional* {-> New parametros (stmt, [param_adicional]) };
+param_adicional {-> param_adicional } = barra_id stmt {-> New param_adicional (stmt) };
 
 
-tipo_retorno_func = {tipo} tipo
- 			  | {none} none_id;
-
-decl_var = tipo identifier id_adicional* semicolon ;
+decl_var {-> decl_var } = tipo identifier id_adicional* semicolon {-> New decl_var (tipo, identificador, [id_adicional]) } ;
 
 
-id_adicional = comma identifier ;
+id_adicional {-> id_adicional } = comma identifier {-> New id_adicional (identifier) };
 
 
-tipo = {tipo_base} tipo_base
-      | {vector} vector_id tipo_base l_bracket stmt r_bracket ;
+tipo {-> tipo } = {tipo_base} tipo_base {-> New tipo (tipo_base, Null) }
+      | {vector} vector_id tipo_base l_bracket stmt r_bracket {-> New tipo (tipo_base, stmt) };
 
 tipo_base = {int}  int_id 
  	       | {char} char_id
@@ -170,10 +172,40 @@ bloco_funcao = start_block_id decl_var* comando* exp_return end_block_id ;
 exp_return = return stmt? semicolon ;
 
 
- constante = {intdec}  number
+constante = {intdec}  number
  	 	   | {intbin}    numero_bin
  		   | {inthex}    hex_number 
  		   | {char}      char_var
  		   | {string}    string 
  		   | {booltrue}  true_id
  		   | {boolfalse} false_id ;
+
+
+
+
+
+Abstract Syntax Tree
+
+ programa = decl_var* decl_func* ;
+ 
+ 
+ decl_func = {tipo} tipo identifier decl_parametros? bloco_funcao 
+           | {none} none identifier decl_parametros? bloco_funcao;
+
+ 
+ decl_parametros = tipo identifier decl_param_adicional* ;
+ decl_param_adicional = decl_parametro ;
+ decl_parametro = tipo identifier ;
+
+ parametros = stmt param_adicional* ;
+ param_adicional = stmt ;
+
+ decl_var = tipo identifier id_adicional*;
+
+ id_adicional = identifier ;
+ 
+ tipo = tipo_base stmt?;
+ 
+ tipo_base = {int}  int
+           | {char} char
+           | {bool} bool;          

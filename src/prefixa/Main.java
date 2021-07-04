@@ -2,6 +2,7 @@ package prefixa;
 import prefixa.parser.*;
 import prefixa.lexer.*;
 import prefixa.node.*;
+import prefixa.semantico.*;
 import java.io.*;
 
 public class Main
@@ -22,7 +23,8 @@ public class Main
    //Imprime árvore na saída padrão
    //tree.apply(new ASTPrinter());
    //Imprime árvore em interface gráfica
-   tree.apply(new ASTDisplay());
+   //tree.apply(new ASTDisplay());
+   tree.apply(new Semantico());
   }
   catch(Exception e)
   {

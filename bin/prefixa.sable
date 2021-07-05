@@ -97,7 +97,7 @@ programa {-> programa } = decl_var* decl_func* {-> New programa ([decl_var], [de
 
 
 decl_func {-> decl_func } = 
-	 {tipo} 	   tipo identificador l_par r_par bloco_funcao					{-> New decl_func.tipo (tipo, identifier, Null, bloco_funcao) }   
+	 {tipo} 	   tipo identifier l_par r_par bloco_funcao					{-> New decl_func.tipo (tipo, identifier, Null, bloco_funcao) }   
 	|{none} 	   none_id identifier l_par r_par bloco_funcao 					{-> New decl_func.none (none, identifier, Null, bloco_funcao) }   
 	|{tipo_params} tipo identifier l_par decl_parametros r_par bloco_funcao 	{-> New decl_func.tipo (tipo, identifier, decl_parametros, bloco_funcao) }   
 	|{none_params} none_id identifier l_par decl_parametros r_par bloco_funcao 	{-> New decl_func.none (none, identifier, decl_parametros, bloco_funcao) }  
@@ -108,11 +108,12 @@ decl_parametros {-> decl_parametros } = decl_parametro decl_param_adicional* {->
 decl_param_adicional { -> decl_param_adicional } = barra_id decl_parametro {-> New decl_param_adicional (decl_parametro) } ;
 decl_parametro {-> decl_parametro } = tipo identifier {-> New decl_parametro (tipo, identifier) } ;
  
-parametros {-> parametros } = stmt param_adicional* {-> New parametros (stmt, [param_adicional]) };
+parametros {-> parametros } = stmt param_adicional* 	{-> New parametros (stmt, [param_adicional]) };
+
 param_adicional {-> param_adicional } = barra_id stmt {-> New param_adicional (stmt) };
 
 
-decl_var {-> decl_var } = tipo identifier id_adicional* semicolon {-> New decl_var (tipo, identificador, [id_adicional]) } ;
+decl_var {-> decl_var } = tipo identifier id_adicional* semicolon {-> New decl_var (tipo, identifier, [id_adicional]) } ;
 
 
 id_adicional {-> id_adicional } = comma identifier {-> New id_adicional (identifier) };
@@ -121,64 +122,69 @@ id_adicional {-> id_adicional } = comma identifier {-> New id_adicional (identif
 tipo {-> tipo } = {tipo_base} tipo_base {-> New tipo (tipo_base, Null) }
       | {vector} vector_id tipo_base l_bracket stmt r_bracket {-> New tipo (tipo_base, stmt) };
 
-tipo_base = {int}  int_id 
- 	       | {char} char_id
- 	       | {bool} bool_id ;
+tipo_base {-> tipo_base } = {int}  int_id  {-> New tipo_base.int  (int_id)  } 
+ 	       | {char} char_id {-> New tipo_base.char (char_id) }
+ 	       | {bool} bool_id {-> New tipo_base.bool (bool_id) } ;
 
-comando_atrib = var atribuicao stmt ;
+comando_atrib =
+  {vetor} identifier l_bracket stmt r_bracket atribuicao [stmtdir]:stmt 	{-> New comando_atrib.vector (identifier, stmt, stmtdir.stmt) }   |
+   |{id}    identifier atribuicao stmt {-> New comando_atrib.id (identifier, stmt) } ;
 
 
-valor = {int} int_type | {real} real_type | {bool} bool_type | {var} identifier;
+valor {-> valor } =
+      {int} int_type  {-> New stmt.id (int_type) }|
+      {real} real_type {-> New stmt.id (real_type) }|
+      {bool} bool_type {-> New stmt.id (bool_type) }| 
+      {id} identifier {-> New stmt.id (identifier) };
 
 
-stmt = {op} opr
-      | {exp_un} exp_un ;
+stmt {-> stmt } = {op}         operacao 									{-> New stmt.operacao (operacao) }   
+    |{stmt_vect}  identifier l_bracket stmt r_bracket	{-> New stmt.vector (identifier, stmt) }   
+    |{stmt_valor} valor									{-> valor.stmt }
+    |{stmt_chmd}  chamada 								{-> New stmt.chamada (chamada) }   
+    ;
 
-opr = {mais}    soma stmt [stmt_l]:stmt
-	 | {menos}   menos stmt [stmt_l]:stmt
-	 | {vezes}   mult stmt [stmt_l]:stmt
-	 | {frac}    div stmt [stmt_l]:stmt
-	 | {igual}   igual_que stmt [stmt_l]:stmt
-     | {meigual} menor_igual_que stmt [stmt_l]:stmt
-     | {maigual} maior_igual_que stmt [stmt_l]:stmt
-     | {menor}   menor_que stmt [stmt_l]:stmt
-     | {maior}   maior_que stmt [stmt_l]:stmt
-     | {and}     and_id stmt [stmt_l]:stmt
-     | {or}      or_id stmt [stmt_l]:stmt 
-     | {not}     not_id stmt ;
+operacao {-> operacao } = {mais} soma stmt [stmt_l]:stmt              {-> New operacao.soma    (stmt, stmt_l) }
+	 | {menos}   menos stmt [stmt_l]:stmt 	                          {-> New operacao.menos   (stmt, stmt_l) }  
+	 | {vezes}   mult stmt [stmt_l]:stmt                              {-> New operacao.mult   (stmt, stmt_l) }
+	 | {frac}    div stmt [stmt_l]:stmt                               {-> New operacao.div    (stmt, stmt_l) }
+	 | {igual}   igual_que stmt [stmt_l]:stmt                         {-> New operacao.igual_que   (stmt, stmt_l) } 
+     | {meigual} menor_igual_que stmt [stmt_l]:stmt                   {-> New operacao.menor_igual_que (stmt, stmt_l) }
+     | {maigual} maior_igual_que stmt [stmt_l]:stmt                   {-> New operacao.maior_igual_que (stmt, stmt_l) }
+     | {menor}   menor_que stmt [stmt_l]:stmt                         {-> New operacao.menor_que   (stmt, stmt_l) }
+     | {maior}   maior_que stmt [stmt_l]:stmt                         {-> New operacao.maior_que   (stmt, stmt_l) }
+     | {and}     and_id stmt [stmt_l]:stmt                            {-> New operacao.and_id     (stmt, stmt_l) }
+     | {or}      or_id stmt [stmt_l]:stmt                             {-> New operacao.or_id      (stmt, stmt_l) }
+     | {not}     not_id stmt  	                                      {-> New operacao.not_id     (stmt) }  ;  
 
-exp_un = {nomevar} var
-      //| {parnts}  l_par stmt r_par
-        | {chamada} chamada   
-        | {constan} constante;
+chamada {-> chamada } =
+	 {vazio} identifier l_par r_par 				{-> New chamada (identifier, Null) }   
+	|{param} identifier l_par parametros r_par	    {-> New chamada (identifier, parametros) };
 
-chamada = identifier l_par parametros? r_par ;
 
-var = {vetor} identifier l_bracket stmt r_bracket
-     | {id}    identifier ; 
+comando {-> comando } =
+	 {if}		if_id l_par stmt r_par comando else_id [elsecomando]: comando							{-> New comando.if (stmt, comando, elsecomando) }   
+	|{while} 	while l_par stmt r_par comando 													{-> New comando.while (stmt, comando) }   
+	|{foreach} 	foreach l_par tipo identifier double_dot [vectorid]:identifier r_par comando	{-> New comando.foreach (tipo, identifier, vectorid, comando) }   
+	|{bloco} 	start_block_id decl_var* comando* end_block_id														{-> New comando.bloco ([decl_var],[comando]) }   
+	|{sendback} exp_return 																		{-> New comando.sendback (exp_sendback) }   
+	|{patrib} 	comando_atrib semicolon 															{-> New comando.cmd_atrib (comando_atrib) }   
+	|{chamada}	chamada semicolon 																	{-> New comando.chamada (chamada) }  
+    ;
 
-comando = {if}       if_id l_par stmt r_par comando else_id [elsecomando]:comando
- 		 | {while}    while l_par stmt r_par comando
- 		 | {foreach}  foreach l_par tipo identifier double_dot [vectorid]:identifier r_par comando
- 		 | {bloco}    bloco 
- 		 | {sendback} exp_return
- 		 | {patrib}   comando_atrib semicolon
-       | {chamada}  chamada semicolon ;   
-
-bloco = start_block_id decl_var* comando* end_block_id ;
  
-bloco_funcao = start_block_id decl_var* comando* exp_return end_block_id ;
+bloco_funcao {-> bloco_funcao } = start_block_id decl_var* comando* exp_return end_block_id {-> New bloco_funcao ([decl_var], [comando], exp_return) }  ;
   
-exp_return = return stmt? semicolon ;
+exp_return {-> exp_return} = return stmt? semicolon ;
 
 
-constante = {intdec}  number
- 	 	   | {intbin}    numero_bin
- 		   | {inthex}    hex_number 
- 		   | {char}      char_var
- 		   | {string}    string 
- 		   | {booltrue}  true_id
- 		   | {boolfalse} false_id ;
+constante {-> constante} = {intdec}  number {-> New constante.intdec (number) } 
+ 	 	   | {intbin}    numero_bin {-> New constante.intbin (numero_bin) }
+ 		   | {inthex}    hex_number  {-> New constante.inthex (hex_number) }
+ 		   | {char}      char_var {-> New constante.char (char_var) }
+ 		   | {string}    string  {-> New constante.string (string) }
+ 		   | {booltrue}  true_id {-> New constante.booltrue (true_id) }
+ 		   | {boolfalse} false_id {-> New constante.boolfalse (false_id) }; 
 
 
 
@@ -190,7 +196,7 @@ Abstract Syntax Tree
  
  
  decl_func = {tipo} tipo identifier decl_parametros? bloco_funcao 
-           | {none} none identifier decl_parametros? bloco_funcao;
+           | {none} none_id identifier decl_parametros? bloco_funcao;
 
  
  decl_parametros = tipo identifier decl_param_adicional* ;
@@ -206,6 +212,62 @@ Abstract Syntax Tree
  
  tipo = tipo_base stmt?;
  
- tipo_base = {int}  int
-           | {char} char
-           | {bool} bool;          
+ tipo_base = {int}  int_id
+           | {char} char_id
+           | {bool} bool_id;     
+
+comando_atrib = {vector} identifier [index]:stmt stmt 
+               | {id}     identifier stmt ;           
+
+valor=
+      {int} int_type|
+      {real} real_type|
+      {bool} bool_type| 
+      {id} identifier;
+
+stmt = {operacao}     operacao
+      | {chamada} chamada   
+      | {id}      identifier
+      | {const}   constante
+      | {vector}  identifier stmt;
+
+
+
+ operacao = {mais}    stmt [stmt_r]:stmt
+	 | {menos}   stmt [stmt_r]:stmt
+	 | {vezes}   stmt [stmt_r]:stmt
+	 | {frac}    stmt [stmt_r]:stmt
+	 | {igual}   stmt [stmt_r]:stmt
+     | {meigual} stmt [stmt_r]:stmt
+     | {maigual} stmt [stmt_r]:stmt
+     | {menor}   stmt [stmt_r]:stmt
+     | {maior}   stmt [stmt_r]:stmt
+     | {and}     stmt [stmt_r]:stmt
+     | {or}      stmt [stmt_r]:stmt 
+     | {not}     stmt ;      
+
+
+chamada = identifier parametros? ;     
+
+
+
+ comando = {if}        stmt comando [elsecomando]:comando
+ 		 | {while}     stmt comando
+ 		 | {foreach}   tipo identifier [vectorid]:identifier comando
+ 		 | {bloco}     decl_var* comando* 
+ 		 | {exp_return}  exp_return
+ 		 | {cmd_atrib} comando_atrib
+         | {chamada}   chamada ;    
+
+
+ bloco_funcao = decl_var* comando* exp_return ;
+
+exp_return =  stmt?;
+
+ constante = {intdec}  number
+ 	 	   | {intbin}    numero_bin
+ 		   | {inthex}    hex_number 
+ 		   | {char}      char_var
+ 		   | {string}    string 
+ 		   | {booltrue}  true_id
+ 		   | {boolfalse} false_id ;

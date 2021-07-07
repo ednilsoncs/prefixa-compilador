@@ -74,7 +74,12 @@ public class AnalysisAdapter implements Analysis
         defaultCase(node);
     }
 
-    public void caseADeclFunc(ADeclFunc node)
+    public void caseATipoDeclFunc(ATipoDeclFunc node)
+    {
+        defaultCase(node);
+    }
+
+    public void caseANoneDeclFunc(ANoneDeclFunc node)
     {
         defaultCase(node);
     }
@@ -104,16 +109,6 @@ public class AnalysisAdapter implements Analysis
         defaultCase(node);
     }
 
-    public void caseATipoTipoRetornoFunc(ATipoTipoRetornoFunc node)
-    {
-        defaultCase(node);
-    }
-
-    public void caseANoneTipoRetornoFunc(ANoneTipoRetornoFunc node)
-    {
-        defaultCase(node);
-    }
-
     public void caseADeclVar(ADeclVar node)
     {
         defaultCase(node);
@@ -124,12 +119,7 @@ public class AnalysisAdapter implements Analysis
         defaultCase(node);
     }
 
-    public void caseATipoBaseTipo(ATipoBaseTipo node)
-    {
-        defaultCase(node);
-    }
-
-    public void caseAVectorTipo(AVectorTipo node)
+    public void caseATipo(ATipo node)
     {
         defaultCase(node);
     }
@@ -149,7 +139,12 @@ public class AnalysisAdapter implements Analysis
         defaultCase(node);
     }
 
-    public void caseAComandoAtrib(AComandoAtrib node)
+    public void caseAVectorComandoAtrib(AVectorComandoAtrib node)
+    {
+        defaultCase(node);
+    }
+
+    public void caseAIdComandoAtrib(AIdComandoAtrib node)
     {
         defaultCase(node);
     }
@@ -169,107 +164,97 @@ public class AnalysisAdapter implements Analysis
         defaultCase(node);
     }
 
-    public void caseAVarValor(AVarValor node)
+    public void caseAIdValor(AIdValor node)
     {
         defaultCase(node);
     }
 
-    public void caseAOpStmt(AOpStmt node)
+    public void caseAOperacaoStmt(AOperacaoStmt node)
     {
         defaultCase(node);
     }
 
-    public void caseAExpUnStmt(AExpUnStmt node)
+    public void caseAChamadaStmt(AChamadaStmt node)
     {
         defaultCase(node);
     }
 
-    public void caseAMaisOpr(AMaisOpr node)
+    public void caseAIdStmt(AIdStmt node)
     {
         defaultCase(node);
     }
 
-    public void caseAMenosOpr(AMenosOpr node)
+    public void caseAConstStmt(AConstStmt node)
     {
         defaultCase(node);
     }
 
-    public void caseAVezesOpr(AVezesOpr node)
+    public void caseAVectorStmt(AVectorStmt node)
     {
         defaultCase(node);
     }
 
-    public void caseAFracOpr(AFracOpr node)
+    public void caseASomaOperacao(ASomaOperacao node)
     {
         defaultCase(node);
     }
 
-    public void caseAIgualOpr(AIgualOpr node)
+    public void caseAMenosOperacao(AMenosOperacao node)
     {
         defaultCase(node);
     }
 
-    public void caseAMeigualOpr(AMeigualOpr node)
+    public void caseAMultOperacao(AMultOperacao node)
     {
         defaultCase(node);
     }
 
-    public void caseAMaigualOpr(AMaigualOpr node)
+    public void caseADivOperacao(ADivOperacao node)
     {
         defaultCase(node);
     }
 
-    public void caseAMenorOpr(AMenorOpr node)
+    public void caseAIgualQueOperacao(AIgualQueOperacao node)
     {
         defaultCase(node);
     }
 
-    public void caseAMaiorOpr(AMaiorOpr node)
+    public void caseAMenorIgualQueOperacao(AMenorIgualQueOperacao node)
     {
         defaultCase(node);
     }
 
-    public void caseAAndOpr(AAndOpr node)
+    public void caseAMaiorIgualQueOperacao(AMaiorIgualQueOperacao node)
     {
         defaultCase(node);
     }
 
-    public void caseAOrOpr(AOrOpr node)
+    public void caseAMenorQueOperacao(AMenorQueOperacao node)
     {
         defaultCase(node);
     }
 
-    public void caseANotOpr(ANotOpr node)
+    public void caseAMaiorQueOperacao(AMaiorQueOperacao node)
     {
         defaultCase(node);
     }
 
-    public void caseANomevarExpUn(ANomevarExpUn node)
+    public void caseAAndIdOperacao(AAndIdOperacao node)
     {
         defaultCase(node);
     }
 
-    public void caseAChamadaExpUn(AChamadaExpUn node)
+    public void caseAOrIdOperacao(AOrIdOperacao node)
     {
         defaultCase(node);
     }
 
-    public void caseAConstanExpUn(AConstanExpUn node)
+    public void caseANotIdOperacao(ANotIdOperacao node)
     {
         defaultCase(node);
     }
 
     public void caseAChamada(AChamada node)
-    {
-        defaultCase(node);
-    }
-
-    public void caseAVetorVar(AVetorVar node)
-    {
-        defaultCase(node);
-    }
-
-    public void caseAIdVar(AIdVar node)
     {
         defaultCase(node);
     }
@@ -294,22 +279,17 @@ public class AnalysisAdapter implements Analysis
         defaultCase(node);
     }
 
-    public void caseASendbackComando(ASendbackComando node)
+    public void caseAExpReturnComando(AExpReturnComando node)
     {
         defaultCase(node);
     }
 
-    public void caseAPatribComando(APatribComando node)
+    public void caseAComandoAtribComando(AComandoAtribComando node)
     {
         defaultCase(node);
     }
 
     public void caseAChamadaComando(AChamadaComando node)
-    {
-        defaultCase(node);
-    }
-
-    public void caseABloco(ABloco node)
     {
         defaultCase(node);
     }

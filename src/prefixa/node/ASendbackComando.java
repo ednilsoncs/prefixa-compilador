@@ -7,7 +7,7 @@ import prefixa.analysis.*;
 @SuppressWarnings("nls")
 public final class ASendbackComando extends PComando
 {
-    private PExpReturn _expReturn_;
+    private PExpSendback _expSendback_;
 
     public ASendbackComando()
     {
@@ -15,10 +15,10 @@ public final class ASendbackComando extends PComando
     }
 
     public ASendbackComando(
-        @SuppressWarnings("hiding") PExpReturn _expReturn_)
+        @SuppressWarnings("hiding") PExpSendback _expSendback_)
     {
         // Constructor
-        setExpReturn(_expReturn_);
+        setExpSendback(_expSendback_);
 
     }
 
@@ -26,7 +26,7 @@ public final class ASendbackComando extends PComando
     public Object clone()
     {
         return new ASendbackComando(
-            cloneNode(this._expReturn_));
+            cloneNode(this._expSendback_));
     }
 
     public void apply(Switch sw)
@@ -34,16 +34,16 @@ public final class ASendbackComando extends PComando
         ((Analysis) sw).caseASendbackComando(this);
     }
 
-    public PExpReturn getExpReturn()
+    public PExpSendback getExpSendback()
     {
-        return this._expReturn_;
+        return this._expSendback_;
     }
 
-    public void setExpReturn(PExpReturn node)
+    public void setExpSendback(PExpSendback node)
     {
-        if(this._expReturn_ != null)
+        if(this._expSendback_ != null)
         {
-            this._expReturn_.parent(null);
+            this._expSendback_.parent(null);
         }
 
         if(node != null)
@@ -56,23 +56,23 @@ public final class ASendbackComando extends PComando
             node.parent(this);
         }
 
-        this._expReturn_ = node;
+        this._expSendback_ = node;
     }
 
     @Override
     public String toString()
     {
         return ""
-            + toString(this._expReturn_);
+            + toString(this._expSendback_);
     }
 
     @Override
     void removeChild(@SuppressWarnings("unused") Node child)
     {
         // Remove child
-        if(this._expReturn_ == child)
+        if(this._expSendback_ == child)
         {
-            this._expReturn_ = null;
+            this._expSendback_ = null;
             return;
         }
 
@@ -83,9 +83,9 @@ public final class ASendbackComando extends PComando
     void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
     {
         // Replace child
-        if(this._expReturn_ == oldChild)
+        if(this._expSendback_ == oldChild)
         {
-            setExpReturn((PExpReturn) newChild);
+            setExpSendback((PExpSendback) newChild);
             return;
         }
 

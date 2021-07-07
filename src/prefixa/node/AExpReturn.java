@@ -7,9 +7,7 @@ import prefixa.analysis.*;
 @SuppressWarnings("nls")
 public final class AExpReturn extends PExpReturn
 {
-    private TReturn _return_;
     private PStmt _stmt_;
-    private TSemicolon _semicolon_;
 
     public AExpReturn()
     {
@@ -17,16 +15,10 @@ public final class AExpReturn extends PExpReturn
     }
 
     public AExpReturn(
-        @SuppressWarnings("hiding") TReturn _return_,
-        @SuppressWarnings("hiding") PStmt _stmt_,
-        @SuppressWarnings("hiding") TSemicolon _semicolon_)
+        @SuppressWarnings("hiding") PStmt _stmt_)
     {
         // Constructor
-        setReturn(_return_);
-
         setStmt(_stmt_);
-
-        setSemicolon(_semicolon_);
 
     }
 
@@ -34,39 +26,12 @@ public final class AExpReturn extends PExpReturn
     public Object clone()
     {
         return new AExpReturn(
-            cloneNode(this._return_),
-            cloneNode(this._stmt_),
-            cloneNode(this._semicolon_));
+            cloneNode(this._stmt_));
     }
 
     public void apply(Switch sw)
     {
         ((Analysis) sw).caseAExpReturn(this);
-    }
-
-    public TReturn getReturn()
-    {
-        return this._return_;
-    }
-
-    public void setReturn(TReturn node)
-    {
-        if(this._return_ != null)
-        {
-            this._return_.parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
-                node.parent().removeChild(node);
-            }
-
-            node.parent(this);
-        }
-
-        this._return_ = node;
     }
 
     public PStmt getStmt()
@@ -94,59 +59,20 @@ public final class AExpReturn extends PExpReturn
         this._stmt_ = node;
     }
 
-    public TSemicolon getSemicolon()
-    {
-        return this._semicolon_;
-    }
-
-    public void setSemicolon(TSemicolon node)
-    {
-        if(this._semicolon_ != null)
-        {
-            this._semicolon_.parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
-                node.parent().removeChild(node);
-            }
-
-            node.parent(this);
-        }
-
-        this._semicolon_ = node;
-    }
-
     @Override
     public String toString()
     {
         return ""
-            + toString(this._return_)
-            + toString(this._stmt_)
-            + toString(this._semicolon_);
+            + toString(this._stmt_);
     }
 
     @Override
     void removeChild(@SuppressWarnings("unused") Node child)
     {
         // Remove child
-        if(this._return_ == child)
-        {
-            this._return_ = null;
-            return;
-        }
-
         if(this._stmt_ == child)
         {
             this._stmt_ = null;
-            return;
-        }
-
-        if(this._semicolon_ == child)
-        {
-            this._semicolon_ = null;
             return;
         }
 
@@ -157,21 +83,9 @@ public final class AExpReturn extends PExpReturn
     void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
     {
         // Replace child
-        if(this._return_ == oldChild)
-        {
-            setReturn((TReturn) newChild);
-            return;
-        }
-
         if(this._stmt_ == oldChild)
         {
             setStmt((PStmt) newChild);
-            return;
-        }
-
-        if(this._semicolon_ == oldChild)
-        {
-            setSemicolon((TSemicolon) newChild);
             return;
         }
 

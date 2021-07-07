@@ -8,7 +8,8 @@ import prefixa.analysis.*;
 @SuppressWarnings("nls")
 public final class ADeclParametros extends PDeclParametros
 {
-    private PDeclParametro _declParametro_;
+    private PTipo _tipo_;
+    private TIdentifier _identifier_;
     private final LinkedList<PDeclParamAdicional> _declParamAdicional_ = new LinkedList<PDeclParamAdicional>();
 
     public ADeclParametros()
@@ -17,11 +18,14 @@ public final class ADeclParametros extends PDeclParametros
     }
 
     public ADeclParametros(
-        @SuppressWarnings("hiding") PDeclParametro _declParametro_,
+        @SuppressWarnings("hiding") PTipo _tipo_,
+        @SuppressWarnings("hiding") TIdentifier _identifier_,
         @SuppressWarnings("hiding") List<PDeclParamAdicional> _declParamAdicional_)
     {
         // Constructor
-        setDeclParametro(_declParametro_);
+        setTipo(_tipo_);
+
+        setIdentifier(_identifier_);
 
         setDeclParamAdicional(_declParamAdicional_);
 
@@ -31,7 +35,8 @@ public final class ADeclParametros extends PDeclParametros
     public Object clone()
     {
         return new ADeclParametros(
-            cloneNode(this._declParametro_),
+            cloneNode(this._tipo_),
+            cloneNode(this._identifier_),
             cloneList(this._declParamAdicional_));
     }
 
@@ -40,16 +45,16 @@ public final class ADeclParametros extends PDeclParametros
         ((Analysis) sw).caseADeclParametros(this);
     }
 
-    public PDeclParametro getDeclParametro()
+    public PTipo getTipo()
     {
-        return this._declParametro_;
+        return this._tipo_;
     }
 
-    public void setDeclParametro(PDeclParametro node)
+    public void setTipo(PTipo node)
     {
-        if(this._declParametro_ != null)
+        if(this._tipo_ != null)
         {
-            this._declParametro_.parent(null);
+            this._tipo_.parent(null);
         }
 
         if(node != null)
@@ -62,7 +67,32 @@ public final class ADeclParametros extends PDeclParametros
             node.parent(this);
         }
 
-        this._declParametro_ = node;
+        this._tipo_ = node;
+    }
+
+    public TIdentifier getIdentifier()
+    {
+        return this._identifier_;
+    }
+
+    public void setIdentifier(TIdentifier node)
+    {
+        if(this._identifier_ != null)
+        {
+            this._identifier_.parent(null);
+        }
+
+        if(node != null)
+        {
+            if(node.parent() != null)
+            {
+                node.parent().removeChild(node);
+            }
+
+            node.parent(this);
+        }
+
+        this._identifier_ = node;
     }
 
     public LinkedList<PDeclParamAdicional> getDeclParamAdicional()
@@ -89,7 +119,8 @@ public final class ADeclParametros extends PDeclParametros
     public String toString()
     {
         return ""
-            + toString(this._declParametro_)
+            + toString(this._tipo_)
+            + toString(this._identifier_)
             + toString(this._declParamAdicional_);
     }
 
@@ -97,9 +128,15 @@ public final class ADeclParametros extends PDeclParametros
     void removeChild(@SuppressWarnings("unused") Node child)
     {
         // Remove child
-        if(this._declParametro_ == child)
+        if(this._tipo_ == child)
         {
-            this._declParametro_ = null;
+            this._tipo_ = null;
+            return;
+        }
+
+        if(this._identifier_ == child)
+        {
+            this._identifier_ = null;
             return;
         }
 
@@ -115,9 +152,15 @@ public final class ADeclParametros extends PDeclParametros
     void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
     {
         // Replace child
-        if(this._declParametro_ == oldChild)
+        if(this._tipo_ == oldChild)
         {
-            setDeclParametro((PDeclParametro) newChild);
+            setTipo((PTipo) newChild);
+            return;
+        }
+
+        if(this._identifier_ == oldChild)
+        {
+            setIdentifier((TIdentifier) newChild);
             return;
         }
 

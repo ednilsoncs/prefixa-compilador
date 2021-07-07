@@ -8,9 +8,7 @@ import prefixa.analysis.*;
 public final class AChamada extends PChamada
 {
     private TIdentifier _identifier_;
-    private TLPar _lPar_;
     private PParametros _parametros_;
-    private TRPar _rPar_;
 
     public AChamada()
     {
@@ -19,18 +17,12 @@ public final class AChamada extends PChamada
 
     public AChamada(
         @SuppressWarnings("hiding") TIdentifier _identifier_,
-        @SuppressWarnings("hiding") TLPar _lPar_,
-        @SuppressWarnings("hiding") PParametros _parametros_,
-        @SuppressWarnings("hiding") TRPar _rPar_)
+        @SuppressWarnings("hiding") PParametros _parametros_)
     {
         // Constructor
         setIdentifier(_identifier_);
 
-        setLPar(_lPar_);
-
         setParametros(_parametros_);
-
-        setRPar(_rPar_);
 
     }
 
@@ -39,9 +31,7 @@ public final class AChamada extends PChamada
     {
         return new AChamada(
             cloneNode(this._identifier_),
-            cloneNode(this._lPar_),
-            cloneNode(this._parametros_),
-            cloneNode(this._rPar_));
+            cloneNode(this._parametros_));
     }
 
     public void apply(Switch sw)
@@ -74,31 +64,6 @@ public final class AChamada extends PChamada
         this._identifier_ = node;
     }
 
-    public TLPar getLPar()
-    {
-        return this._lPar_;
-    }
-
-    public void setLPar(TLPar node)
-    {
-        if(this._lPar_ != null)
-        {
-            this._lPar_.parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
-                node.parent().removeChild(node);
-            }
-
-            node.parent(this);
-        }
-
-        this._lPar_ = node;
-    }
-
     public PParametros getParametros()
     {
         return this._parametros_;
@@ -124,39 +89,12 @@ public final class AChamada extends PChamada
         this._parametros_ = node;
     }
 
-    public TRPar getRPar()
-    {
-        return this._rPar_;
-    }
-
-    public void setRPar(TRPar node)
-    {
-        if(this._rPar_ != null)
-        {
-            this._rPar_.parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
-                node.parent().removeChild(node);
-            }
-
-            node.parent(this);
-        }
-
-        this._rPar_ = node;
-    }
-
     @Override
     public String toString()
     {
         return ""
             + toString(this._identifier_)
-            + toString(this._lPar_)
-            + toString(this._parametros_)
-            + toString(this._rPar_);
+            + toString(this._parametros_);
     }
 
     @Override
@@ -169,21 +107,9 @@ public final class AChamada extends PChamada
             return;
         }
 
-        if(this._lPar_ == child)
-        {
-            this._lPar_ = null;
-            return;
-        }
-
         if(this._parametros_ == child)
         {
             this._parametros_ = null;
-            return;
-        }
-
-        if(this._rPar_ == child)
-        {
-            this._rPar_ = null;
             return;
         }
 
@@ -200,21 +126,9 @@ public final class AChamada extends PChamada
             return;
         }
 
-        if(this._lPar_ == oldChild)
-        {
-            setLPar((TLPar) newChild);
-            return;
-        }
-
         if(this._parametros_ == oldChild)
         {
             setParametros((PParametros) newChild);
-            return;
-        }
-
-        if(this._rPar_ == oldChild)
-        {
-            setRPar((TRPar) newChild);
             return;
         }
 

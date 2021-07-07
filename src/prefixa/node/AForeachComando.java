@@ -7,13 +7,9 @@ import prefixa.analysis.*;
 @SuppressWarnings("nls")
 public final class AForeachComando extends PComando
 {
-    private TForeach _foreach_;
-    private TLPar _lPar_;
     private PTipo _tipo_;
     private TIdentifier _identifier_;
-    private TDoubleDot _doubleDot_;
     private TIdentifier _vectorid_;
-    private TRPar _rPar_;
     private PComando _comando_;
 
     public AForeachComando()
@@ -22,29 +18,17 @@ public final class AForeachComando extends PComando
     }
 
     public AForeachComando(
-        @SuppressWarnings("hiding") TForeach _foreach_,
-        @SuppressWarnings("hiding") TLPar _lPar_,
         @SuppressWarnings("hiding") PTipo _tipo_,
         @SuppressWarnings("hiding") TIdentifier _identifier_,
-        @SuppressWarnings("hiding") TDoubleDot _doubleDot_,
         @SuppressWarnings("hiding") TIdentifier _vectorid_,
-        @SuppressWarnings("hiding") TRPar _rPar_,
         @SuppressWarnings("hiding") PComando _comando_)
     {
         // Constructor
-        setForeach(_foreach_);
-
-        setLPar(_lPar_);
-
         setTipo(_tipo_);
 
         setIdentifier(_identifier_);
 
-        setDoubleDot(_doubleDot_);
-
         setVectorid(_vectorid_);
-
-        setRPar(_rPar_);
 
         setComando(_comando_);
 
@@ -54,69 +38,15 @@ public final class AForeachComando extends PComando
     public Object clone()
     {
         return new AForeachComando(
-            cloneNode(this._foreach_),
-            cloneNode(this._lPar_),
             cloneNode(this._tipo_),
             cloneNode(this._identifier_),
-            cloneNode(this._doubleDot_),
             cloneNode(this._vectorid_),
-            cloneNode(this._rPar_),
             cloneNode(this._comando_));
     }
 
     public void apply(Switch sw)
     {
         ((Analysis) sw).caseAForeachComando(this);
-    }
-
-    public TForeach getForeach()
-    {
-        return this._foreach_;
-    }
-
-    public void setForeach(TForeach node)
-    {
-        if(this._foreach_ != null)
-        {
-            this._foreach_.parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
-                node.parent().removeChild(node);
-            }
-
-            node.parent(this);
-        }
-
-        this._foreach_ = node;
-    }
-
-    public TLPar getLPar()
-    {
-        return this._lPar_;
-    }
-
-    public void setLPar(TLPar node)
-    {
-        if(this._lPar_ != null)
-        {
-            this._lPar_.parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
-                node.parent().removeChild(node);
-            }
-
-            node.parent(this);
-        }
-
-        this._lPar_ = node;
     }
 
     public PTipo getTipo()
@@ -169,31 +99,6 @@ public final class AForeachComando extends PComando
         this._identifier_ = node;
     }
 
-    public TDoubleDot getDoubleDot()
-    {
-        return this._doubleDot_;
-    }
-
-    public void setDoubleDot(TDoubleDot node)
-    {
-        if(this._doubleDot_ != null)
-        {
-            this._doubleDot_.parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
-                node.parent().removeChild(node);
-            }
-
-            node.parent(this);
-        }
-
-        this._doubleDot_ = node;
-    }
-
     public TIdentifier getVectorid()
     {
         return this._vectorid_;
@@ -217,31 +122,6 @@ public final class AForeachComando extends PComando
         }
 
         this._vectorid_ = node;
-    }
-
-    public TRPar getRPar()
-    {
-        return this._rPar_;
-    }
-
-    public void setRPar(TRPar node)
-    {
-        if(this._rPar_ != null)
-        {
-            this._rPar_.parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
-                node.parent().removeChild(node);
-            }
-
-            node.parent(this);
-        }
-
-        this._rPar_ = node;
     }
 
     public PComando getComando()
@@ -273,13 +153,9 @@ public final class AForeachComando extends PComando
     public String toString()
     {
         return ""
-            + toString(this._foreach_)
-            + toString(this._lPar_)
             + toString(this._tipo_)
             + toString(this._identifier_)
-            + toString(this._doubleDot_)
             + toString(this._vectorid_)
-            + toString(this._rPar_)
             + toString(this._comando_);
     }
 
@@ -287,18 +163,6 @@ public final class AForeachComando extends PComando
     void removeChild(@SuppressWarnings("unused") Node child)
     {
         // Remove child
-        if(this._foreach_ == child)
-        {
-            this._foreach_ = null;
-            return;
-        }
-
-        if(this._lPar_ == child)
-        {
-            this._lPar_ = null;
-            return;
-        }
-
         if(this._tipo_ == child)
         {
             this._tipo_ = null;
@@ -311,21 +175,9 @@ public final class AForeachComando extends PComando
             return;
         }
 
-        if(this._doubleDot_ == child)
-        {
-            this._doubleDot_ = null;
-            return;
-        }
-
         if(this._vectorid_ == child)
         {
             this._vectorid_ = null;
-            return;
-        }
-
-        if(this._rPar_ == child)
-        {
-            this._rPar_ = null;
             return;
         }
 
@@ -342,18 +194,6 @@ public final class AForeachComando extends PComando
     void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
     {
         // Replace child
-        if(this._foreach_ == oldChild)
-        {
-            setForeach((TForeach) newChild);
-            return;
-        }
-
-        if(this._lPar_ == oldChild)
-        {
-            setLPar((TLPar) newChild);
-            return;
-        }
-
         if(this._tipo_ == oldChild)
         {
             setTipo((PTipo) newChild);
@@ -366,21 +206,9 @@ public final class AForeachComando extends PComando
             return;
         }
 
-        if(this._doubleDot_ == oldChild)
-        {
-            setDoubleDot((TDoubleDot) newChild);
-            return;
-        }
-
         if(this._vectorid_ == oldChild)
         {
             setVectorid((TIdentifier) newChild);
-            return;
-        }
-
-        if(this._rPar_ == oldChild)
-        {
-            setRPar((TRPar) newChild);
             return;
         }
 

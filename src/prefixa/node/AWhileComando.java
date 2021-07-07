@@ -7,10 +7,7 @@ import prefixa.analysis.*;
 @SuppressWarnings("nls")
 public final class AWhileComando extends PComando
 {
-    private TWhile _while_;
-    private TLPar _lPar_;
     private PStmt _stmt_;
-    private TRPar _rPar_;
     private PComando _comando_;
 
     public AWhileComando()
@@ -19,20 +16,11 @@ public final class AWhileComando extends PComando
     }
 
     public AWhileComando(
-        @SuppressWarnings("hiding") TWhile _while_,
-        @SuppressWarnings("hiding") TLPar _lPar_,
         @SuppressWarnings("hiding") PStmt _stmt_,
-        @SuppressWarnings("hiding") TRPar _rPar_,
         @SuppressWarnings("hiding") PComando _comando_)
     {
         // Constructor
-        setWhile(_while_);
-
-        setLPar(_lPar_);
-
         setStmt(_stmt_);
-
-        setRPar(_rPar_);
 
         setComando(_comando_);
 
@@ -42,66 +30,13 @@ public final class AWhileComando extends PComando
     public Object clone()
     {
         return new AWhileComando(
-            cloneNode(this._while_),
-            cloneNode(this._lPar_),
             cloneNode(this._stmt_),
-            cloneNode(this._rPar_),
             cloneNode(this._comando_));
     }
 
     public void apply(Switch sw)
     {
         ((Analysis) sw).caseAWhileComando(this);
-    }
-
-    public TWhile getWhile()
-    {
-        return this._while_;
-    }
-
-    public void setWhile(TWhile node)
-    {
-        if(this._while_ != null)
-        {
-            this._while_.parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
-                node.parent().removeChild(node);
-            }
-
-            node.parent(this);
-        }
-
-        this._while_ = node;
-    }
-
-    public TLPar getLPar()
-    {
-        return this._lPar_;
-    }
-
-    public void setLPar(TLPar node)
-    {
-        if(this._lPar_ != null)
-        {
-            this._lPar_.parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
-                node.parent().removeChild(node);
-            }
-
-            node.parent(this);
-        }
-
-        this._lPar_ = node;
     }
 
     public PStmt getStmt()
@@ -127,31 +62,6 @@ public final class AWhileComando extends PComando
         }
 
         this._stmt_ = node;
-    }
-
-    public TRPar getRPar()
-    {
-        return this._rPar_;
-    }
-
-    public void setRPar(TRPar node)
-    {
-        if(this._rPar_ != null)
-        {
-            this._rPar_.parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
-                node.parent().removeChild(node);
-            }
-
-            node.parent(this);
-        }
-
-        this._rPar_ = node;
     }
 
     public PComando getComando()
@@ -183,10 +93,7 @@ public final class AWhileComando extends PComando
     public String toString()
     {
         return ""
-            + toString(this._while_)
-            + toString(this._lPar_)
             + toString(this._stmt_)
-            + toString(this._rPar_)
             + toString(this._comando_);
     }
 
@@ -194,27 +101,9 @@ public final class AWhileComando extends PComando
     void removeChild(@SuppressWarnings("unused") Node child)
     {
         // Remove child
-        if(this._while_ == child)
-        {
-            this._while_ = null;
-            return;
-        }
-
-        if(this._lPar_ == child)
-        {
-            this._lPar_ = null;
-            return;
-        }
-
         if(this._stmt_ == child)
         {
             this._stmt_ = null;
-            return;
-        }
-
-        if(this._rPar_ == child)
-        {
-            this._rPar_ = null;
             return;
         }
 
@@ -231,27 +120,9 @@ public final class AWhileComando extends PComando
     void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
     {
         // Replace child
-        if(this._while_ == oldChild)
-        {
-            setWhile((TWhile) newChild);
-            return;
-        }
-
-        if(this._lPar_ == oldChild)
-        {
-            setLPar((TLPar) newChild);
-            return;
-        }
-
         if(this._stmt_ == oldChild)
         {
             setStmt((PStmt) newChild);
-            return;
-        }
-
-        if(this._rPar_ == oldChild)
-        {
-            setRPar((TRPar) newChild);
             return;
         }
 

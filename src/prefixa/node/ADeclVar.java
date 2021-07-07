@@ -11,7 +11,6 @@ public final class ADeclVar extends PDeclVar
     private PTipo _tipo_;
     private TIdentifier _identifier_;
     private final LinkedList<PIdAdicional> _idAdicional_ = new LinkedList<PIdAdicional>();
-    private TSemicolon _semicolon_;
 
     public ADeclVar()
     {
@@ -21,8 +20,7 @@ public final class ADeclVar extends PDeclVar
     public ADeclVar(
         @SuppressWarnings("hiding") PTipo _tipo_,
         @SuppressWarnings("hiding") TIdentifier _identifier_,
-        @SuppressWarnings("hiding") List<PIdAdicional> _idAdicional_,
-        @SuppressWarnings("hiding") TSemicolon _semicolon_)
+        @SuppressWarnings("hiding") List<PIdAdicional> _idAdicional_)
     {
         // Constructor
         setTipo(_tipo_);
@@ -30,8 +28,6 @@ public final class ADeclVar extends PDeclVar
         setIdentifier(_identifier_);
 
         setIdAdicional(_idAdicional_);
-
-        setSemicolon(_semicolon_);
 
     }
 
@@ -41,8 +37,7 @@ public final class ADeclVar extends PDeclVar
         return new ADeclVar(
             cloneNode(this._tipo_),
             cloneNode(this._identifier_),
-            cloneList(this._idAdicional_),
-            cloneNode(this._semicolon_));
+            cloneList(this._idAdicional_));
     }
 
     public void apply(Switch sw)
@@ -120,39 +115,13 @@ public final class ADeclVar extends PDeclVar
         }
     }
 
-    public TSemicolon getSemicolon()
-    {
-        return this._semicolon_;
-    }
-
-    public void setSemicolon(TSemicolon node)
-    {
-        if(this._semicolon_ != null)
-        {
-            this._semicolon_.parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
-                node.parent().removeChild(node);
-            }
-
-            node.parent(this);
-        }
-
-        this._semicolon_ = node;
-    }
-
     @Override
     public String toString()
     {
         return ""
             + toString(this._tipo_)
             + toString(this._identifier_)
-            + toString(this._idAdicional_)
-            + toString(this._semicolon_);
+            + toString(this._idAdicional_);
     }
 
     @Override
@@ -173,12 +142,6 @@ public final class ADeclVar extends PDeclVar
 
         if(this._idAdicional_.remove(child))
         {
-            return;
-        }
-
-        if(this._semicolon_ == child)
-        {
-            this._semicolon_ = null;
             return;
         }
 
@@ -217,12 +180,6 @@ public final class ADeclVar extends PDeclVar
                 oldChild.parent(null);
                 return;
             }
-        }
-
-        if(this._semicolon_ == oldChild)
-        {
-            setSemicolon((TSemicolon) newChild);
-            return;
         }
 
         throw new RuntimeException("Not a child.");

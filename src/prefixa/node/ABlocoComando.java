@@ -2,12 +2,14 @@
 
 package prefixa.node;
 
+import java.util.*;
 import prefixa.analysis.*;
 
 @SuppressWarnings("nls")
 public final class ABlocoComando extends PComando
 {
-    private PBloco _bloco_;
+    private final LinkedList<PDeclVar> _declVar_ = new LinkedList<PDeclVar>();
+    private final LinkedList<PComando> _comando_ = new LinkedList<PComando>();
 
     public ABlocoComando()
     {
@@ -15,10 +17,13 @@ public final class ABlocoComando extends PComando
     }
 
     public ABlocoComando(
-        @SuppressWarnings("hiding") PBloco _bloco_)
+        @SuppressWarnings("hiding") List<PDeclVar> _declVar_,
+        @SuppressWarnings("hiding") List<PComando> _comando_)
     {
         // Constructor
-        setBloco(_bloco_);
+        setDeclVar(_declVar_);
+
+        setComando(_comando_);
 
     }
 
@@ -26,7 +31,8 @@ public final class ABlocoComando extends PComando
     public Object clone()
     {
         return new ABlocoComando(
-            cloneNode(this._bloco_));
+            cloneList(this._declVar_),
+            cloneList(this._comando_));
     }
 
     public void apply(Switch sw)
@@ -34,45 +40,65 @@ public final class ABlocoComando extends PComando
         ((Analysis) sw).caseABlocoComando(this);
     }
 
-    public PBloco getBloco()
+    public LinkedList<PDeclVar> getDeclVar()
     {
-        return this._bloco_;
+        return this._declVar_;
     }
 
-    public void setBloco(PBloco node)
+    public void setDeclVar(List<PDeclVar> list)
     {
-        if(this._bloco_ != null)
+        this._declVar_.clear();
+        this._declVar_.addAll(list);
+        for(PDeclVar e : list)
         {
-            this._bloco_.parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.parent() != null)
+            if(e.parent() != null)
             {
-                node.parent().removeChild(node);
+                e.parent().removeChild(e);
             }
 
-            node.parent(this);
+            e.parent(this);
         }
+    }
 
-        this._bloco_ = node;
+    public LinkedList<PComando> getComando()
+    {
+        return this._comando_;
+    }
+
+    public void setComando(List<PComando> list)
+    {
+        this._comando_.clear();
+        this._comando_.addAll(list);
+        for(PComando e : list)
+        {
+            if(e.parent() != null)
+            {
+                e.parent().removeChild(e);
+            }
+
+            e.parent(this);
+        }
     }
 
     @Override
     public String toString()
     {
         return ""
-            + toString(this._bloco_);
+            + toString(this._declVar_)
+            + toString(this._comando_);
     }
 
     @Override
     void removeChild(@SuppressWarnings("unused") Node child)
     {
         // Remove child
-        if(this._bloco_ == child)
+        if(this._declVar_.remove(child))
         {
-            this._bloco_ = null;
+            return;
+        }
+
+        if(this._comando_.remove(child))
+        {
             return;
         }
 
@@ -83,10 +109,40 @@ public final class ABlocoComando extends PComando
     void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
     {
         // Replace child
-        if(this._bloco_ == oldChild)
+        for(ListIterator<PDeclVar> i = this._declVar_.listIterator(); i.hasNext();)
         {
-            setBloco((PBloco) newChild);
-            return;
+            if(i.next() == oldChild)
+            {
+                if(newChild != null)
+                {
+                    i.set((PDeclVar) newChild);
+                    newChild.parent(this);
+                    oldChild.parent(null);
+                    return;
+                }
+
+                i.remove();
+                oldChild.parent(null);
+                return;
+            }
+        }
+
+        for(ListIterator<PComando> i = this._comando_.listIterator(); i.hasNext();)
+        {
+            if(i.next() == oldChild)
+            {
+                if(newChild != null)
+                {
+                    i.set((PComando) newChild);
+                    newChild.parent(this);
+                    oldChild.parent(null);
+                    return;
+                }
+
+                i.remove();
+                oldChild.parent(null);
+                return;
+            }
         }
 
         throw new RuntimeException("Not a child.");

@@ -7,7 +7,6 @@ import prefixa.analysis.*;
 @SuppressWarnings("nls")
 public final class AParamAdicional extends PParamAdicional
 {
-    private TBarraId _barraId_;
     private PStmt _stmt_;
 
     public AParamAdicional()
@@ -16,12 +15,9 @@ public final class AParamAdicional extends PParamAdicional
     }
 
     public AParamAdicional(
-        @SuppressWarnings("hiding") TBarraId _barraId_,
         @SuppressWarnings("hiding") PStmt _stmt_)
     {
         // Constructor
-        setBarraId(_barraId_);
-
         setStmt(_stmt_);
 
     }
@@ -30,38 +26,12 @@ public final class AParamAdicional extends PParamAdicional
     public Object clone()
     {
         return new AParamAdicional(
-            cloneNode(this._barraId_),
             cloneNode(this._stmt_));
     }
 
     public void apply(Switch sw)
     {
         ((Analysis) sw).caseAParamAdicional(this);
-    }
-
-    public TBarraId getBarraId()
-    {
-        return this._barraId_;
-    }
-
-    public void setBarraId(TBarraId node)
-    {
-        if(this._barraId_ != null)
-        {
-            this._barraId_.parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
-                node.parent().removeChild(node);
-            }
-
-            node.parent(this);
-        }
-
-        this._barraId_ = node;
     }
 
     public PStmt getStmt()
@@ -93,7 +63,6 @@ public final class AParamAdicional extends PParamAdicional
     public String toString()
     {
         return ""
-            + toString(this._barraId_)
             + toString(this._stmt_);
     }
 
@@ -101,12 +70,6 @@ public final class AParamAdicional extends PParamAdicional
     void removeChild(@SuppressWarnings("unused") Node child)
     {
         // Remove child
-        if(this._barraId_ == child)
-        {
-            this._barraId_ = null;
-            return;
-        }
-
         if(this._stmt_ == child)
         {
             this._stmt_ = null;
@@ -120,12 +83,6 @@ public final class AParamAdicional extends PParamAdicional
     void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
     {
         // Replace child
-        if(this._barraId_ == oldChild)
-        {
-            setBarraId((TBarraId) newChild);
-            return;
-        }
-
         if(this._stmt_ == oldChild)
         {
             setStmt((PStmt) newChild);

@@ -7,7 +7,6 @@ import prefixa.analysis.*;
 @SuppressWarnings("nls")
 public final class ANotOpr extends POpr
 {
-    private TNotId _notId_;
     private PStmt _stmt_;
 
     public ANotOpr()
@@ -16,12 +15,9 @@ public final class ANotOpr extends POpr
     }
 
     public ANotOpr(
-        @SuppressWarnings("hiding") TNotId _notId_,
         @SuppressWarnings("hiding") PStmt _stmt_)
     {
         // Constructor
-        setNotId(_notId_);
-
         setStmt(_stmt_);
 
     }
@@ -30,38 +26,12 @@ public final class ANotOpr extends POpr
     public Object clone()
     {
         return new ANotOpr(
-            cloneNode(this._notId_),
             cloneNode(this._stmt_));
     }
 
     public void apply(Switch sw)
     {
         ((Analysis) sw).caseANotOpr(this);
-    }
-
-    public TNotId getNotId()
-    {
-        return this._notId_;
-    }
-
-    public void setNotId(TNotId node)
-    {
-        if(this._notId_ != null)
-        {
-            this._notId_.parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
-                node.parent().removeChild(node);
-            }
-
-            node.parent(this);
-        }
-
-        this._notId_ = node;
     }
 
     public PStmt getStmt()
@@ -93,7 +63,6 @@ public final class ANotOpr extends POpr
     public String toString()
     {
         return ""
-            + toString(this._notId_)
             + toString(this._stmt_);
     }
 
@@ -101,12 +70,6 @@ public final class ANotOpr extends POpr
     void removeChild(@SuppressWarnings("unused") Node child)
     {
         // Remove child
-        if(this._notId_ == child)
-        {
-            this._notId_ = null;
-            return;
-        }
-
         if(this._stmt_ == child)
         {
             this._stmt_ = null;
@@ -120,12 +83,6 @@ public final class ANotOpr extends POpr
     void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
     {
         // Replace child
-        if(this._notId_ == oldChild)
-        {
-            setNotId((TNotId) newChild);
-            return;
-        }
-
         if(this._stmt_ == oldChild)
         {
             setStmt((PStmt) newChild);

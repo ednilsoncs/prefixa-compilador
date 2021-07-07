@@ -7,13 +7,9 @@ import prefixa.analysis.*;
 @SuppressWarnings("nls")
 public final class AIfComando extends PComando
 {
-    private TIfId _ifId_;
-    private TLPar _lPar_;
     private PStmt _stmt_;
-    private TRPar _rPar_;
     private PComando _comando_;
-    private TElseId _elseId_;
-    private PComando _elsecomando_;
+    private PComando _elseTree_;
 
     public AIfComando()
     {
@@ -21,28 +17,16 @@ public final class AIfComando extends PComando
     }
 
     public AIfComando(
-        @SuppressWarnings("hiding") TIfId _ifId_,
-        @SuppressWarnings("hiding") TLPar _lPar_,
         @SuppressWarnings("hiding") PStmt _stmt_,
-        @SuppressWarnings("hiding") TRPar _rPar_,
         @SuppressWarnings("hiding") PComando _comando_,
-        @SuppressWarnings("hiding") TElseId _elseId_,
-        @SuppressWarnings("hiding") PComando _elsecomando_)
+        @SuppressWarnings("hiding") PComando _elseTree_)
     {
         // Constructor
-        setIfId(_ifId_);
-
-        setLPar(_lPar_);
-
         setStmt(_stmt_);
-
-        setRPar(_rPar_);
 
         setComando(_comando_);
 
-        setElseId(_elseId_);
-
-        setElsecomando(_elsecomando_);
+        setElseTree(_elseTree_);
 
     }
 
@@ -50,68 +34,14 @@ public final class AIfComando extends PComando
     public Object clone()
     {
         return new AIfComando(
-            cloneNode(this._ifId_),
-            cloneNode(this._lPar_),
             cloneNode(this._stmt_),
-            cloneNode(this._rPar_),
             cloneNode(this._comando_),
-            cloneNode(this._elseId_),
-            cloneNode(this._elsecomando_));
+            cloneNode(this._elseTree_));
     }
 
     public void apply(Switch sw)
     {
         ((Analysis) sw).caseAIfComando(this);
-    }
-
-    public TIfId getIfId()
-    {
-        return this._ifId_;
-    }
-
-    public void setIfId(TIfId node)
-    {
-        if(this._ifId_ != null)
-        {
-            this._ifId_.parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
-                node.parent().removeChild(node);
-            }
-
-            node.parent(this);
-        }
-
-        this._ifId_ = node;
-    }
-
-    public TLPar getLPar()
-    {
-        return this._lPar_;
-    }
-
-    public void setLPar(TLPar node)
-    {
-        if(this._lPar_ != null)
-        {
-            this._lPar_.parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
-                node.parent().removeChild(node);
-            }
-
-            node.parent(this);
-        }
-
-        this._lPar_ = node;
     }
 
     public PStmt getStmt()
@@ -139,31 +69,6 @@ public final class AIfComando extends PComando
         this._stmt_ = node;
     }
 
-    public TRPar getRPar()
-    {
-        return this._rPar_;
-    }
-
-    public void setRPar(TRPar node)
-    {
-        if(this._rPar_ != null)
-        {
-            this._rPar_.parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
-                node.parent().removeChild(node);
-            }
-
-            node.parent(this);
-        }
-
-        this._rPar_ = node;
-    }
-
     public PComando getComando()
     {
         return this._comando_;
@@ -189,16 +94,16 @@ public final class AIfComando extends PComando
         this._comando_ = node;
     }
 
-    public TElseId getElseId()
+    public PComando getElseTree()
     {
-        return this._elseId_;
+        return this._elseTree_;
     }
 
-    public void setElseId(TElseId node)
+    public void setElseTree(PComando node)
     {
-        if(this._elseId_ != null)
+        if(this._elseTree_ != null)
         {
-            this._elseId_.parent(null);
+            this._elseTree_.parent(null);
         }
 
         if(node != null)
@@ -211,72 +116,25 @@ public final class AIfComando extends PComando
             node.parent(this);
         }
 
-        this._elseId_ = node;
-    }
-
-    public PComando getElsecomando()
-    {
-        return this._elsecomando_;
-    }
-
-    public void setElsecomando(PComando node)
-    {
-        if(this._elsecomando_ != null)
-        {
-            this._elsecomando_.parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
-                node.parent().removeChild(node);
-            }
-
-            node.parent(this);
-        }
-
-        this._elsecomando_ = node;
+        this._elseTree_ = node;
     }
 
     @Override
     public String toString()
     {
         return ""
-            + toString(this._ifId_)
-            + toString(this._lPar_)
             + toString(this._stmt_)
-            + toString(this._rPar_)
             + toString(this._comando_)
-            + toString(this._elseId_)
-            + toString(this._elsecomando_);
+            + toString(this._elseTree_);
     }
 
     @Override
     void removeChild(@SuppressWarnings("unused") Node child)
     {
         // Remove child
-        if(this._ifId_ == child)
-        {
-            this._ifId_ = null;
-            return;
-        }
-
-        if(this._lPar_ == child)
-        {
-            this._lPar_ = null;
-            return;
-        }
-
         if(this._stmt_ == child)
         {
             this._stmt_ = null;
-            return;
-        }
-
-        if(this._rPar_ == child)
-        {
-            this._rPar_ = null;
             return;
         }
 
@@ -286,15 +144,9 @@ public final class AIfComando extends PComando
             return;
         }
 
-        if(this._elseId_ == child)
+        if(this._elseTree_ == child)
         {
-            this._elseId_ = null;
-            return;
-        }
-
-        if(this._elsecomando_ == child)
-        {
-            this._elsecomando_ = null;
+            this._elseTree_ = null;
             return;
         }
 
@@ -305,27 +157,9 @@ public final class AIfComando extends PComando
     void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
     {
         // Replace child
-        if(this._ifId_ == oldChild)
-        {
-            setIfId((TIfId) newChild);
-            return;
-        }
-
-        if(this._lPar_ == oldChild)
-        {
-            setLPar((TLPar) newChild);
-            return;
-        }
-
         if(this._stmt_ == oldChild)
         {
             setStmt((PStmt) newChild);
-            return;
-        }
-
-        if(this._rPar_ == oldChild)
-        {
-            setRPar((TRPar) newChild);
             return;
         }
 
@@ -335,15 +169,9 @@ public final class AIfComando extends PComando
             return;
         }
 
-        if(this._elseId_ == oldChild)
+        if(this._elseTree_ == oldChild)
         {
-            setElseId((TElseId) newChild);
-            return;
-        }
-
-        if(this._elsecomando_ == oldChild)
-        {
-            setElsecomando((PComando) newChild);
+            setElseTree((PComando) newChild);
             return;
         }
 

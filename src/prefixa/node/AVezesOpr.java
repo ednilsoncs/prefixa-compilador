@@ -7,9 +7,8 @@ import prefixa.analysis.*;
 @SuppressWarnings("nls")
 public final class AVezesOpr extends POpr
 {
-    private TMult _mult_;
     private PStmt _stmt_;
-    private PStmt _stmtL_;
+    private PStmt _stmtR_;
 
     public AVezesOpr()
     {
@@ -17,16 +16,13 @@ public final class AVezesOpr extends POpr
     }
 
     public AVezesOpr(
-        @SuppressWarnings("hiding") TMult _mult_,
         @SuppressWarnings("hiding") PStmt _stmt_,
-        @SuppressWarnings("hiding") PStmt _stmtL_)
+        @SuppressWarnings("hiding") PStmt _stmtR_)
     {
         // Constructor
-        setMult(_mult_);
-
         setStmt(_stmt_);
 
-        setStmtL(_stmtL_);
+        setStmtR(_stmtR_);
 
     }
 
@@ -34,39 +30,13 @@ public final class AVezesOpr extends POpr
     public Object clone()
     {
         return new AVezesOpr(
-            cloneNode(this._mult_),
             cloneNode(this._stmt_),
-            cloneNode(this._stmtL_));
+            cloneNode(this._stmtR_));
     }
 
     public void apply(Switch sw)
     {
         ((Analysis) sw).caseAVezesOpr(this);
-    }
-
-    public TMult getMult()
-    {
-        return this._mult_;
-    }
-
-    public void setMult(TMult node)
-    {
-        if(this._mult_ != null)
-        {
-            this._mult_.parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
-                node.parent().removeChild(node);
-            }
-
-            node.parent(this);
-        }
-
-        this._mult_ = node;
     }
 
     public PStmt getStmt()
@@ -94,16 +64,16 @@ public final class AVezesOpr extends POpr
         this._stmt_ = node;
     }
 
-    public PStmt getStmtL()
+    public PStmt getStmtR()
     {
-        return this._stmtL_;
+        return this._stmtR_;
     }
 
-    public void setStmtL(PStmt node)
+    public void setStmtR(PStmt node)
     {
-        if(this._stmtL_ != null)
+        if(this._stmtR_ != null)
         {
-            this._stmtL_.parent(null);
+            this._stmtR_.parent(null);
         }
 
         if(node != null)
@@ -116,37 +86,30 @@ public final class AVezesOpr extends POpr
             node.parent(this);
         }
 
-        this._stmtL_ = node;
+        this._stmtR_ = node;
     }
 
     @Override
     public String toString()
     {
         return ""
-            + toString(this._mult_)
             + toString(this._stmt_)
-            + toString(this._stmtL_);
+            + toString(this._stmtR_);
     }
 
     @Override
     void removeChild(@SuppressWarnings("unused") Node child)
     {
         // Remove child
-        if(this._mult_ == child)
-        {
-            this._mult_ = null;
-            return;
-        }
-
         if(this._stmt_ == child)
         {
             this._stmt_ = null;
             return;
         }
 
-        if(this._stmtL_ == child)
+        if(this._stmtR_ == child)
         {
-            this._stmtL_ = null;
+            this._stmtR_ = null;
             return;
         }
 
@@ -157,21 +120,15 @@ public final class AVezesOpr extends POpr
     void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
     {
         // Replace child
-        if(this._mult_ == oldChild)
-        {
-            setMult((TMult) newChild);
-            return;
-        }
-
         if(this._stmt_ == oldChild)
         {
             setStmt((PStmt) newChild);
             return;
         }
 
-        if(this._stmtL_ == oldChild)
+        if(this._stmtR_ == oldChild)
         {
-            setStmtL((PStmt) newChild);
+            setStmtR((PStmt) newChild);
             return;
         }
 

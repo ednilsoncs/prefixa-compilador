@@ -7,7 +7,6 @@ import prefixa.analysis.*;
 @SuppressWarnings("nls")
 public final class AIdAdicional extends PIdAdicional
 {
-    private TComma _comma_;
     private TIdentifier _identifier_;
 
     public AIdAdicional()
@@ -16,12 +15,9 @@ public final class AIdAdicional extends PIdAdicional
     }
 
     public AIdAdicional(
-        @SuppressWarnings("hiding") TComma _comma_,
         @SuppressWarnings("hiding") TIdentifier _identifier_)
     {
         // Constructor
-        setComma(_comma_);
-
         setIdentifier(_identifier_);
 
     }
@@ -30,38 +26,12 @@ public final class AIdAdicional extends PIdAdicional
     public Object clone()
     {
         return new AIdAdicional(
-            cloneNode(this._comma_),
             cloneNode(this._identifier_));
     }
 
     public void apply(Switch sw)
     {
         ((Analysis) sw).caseAIdAdicional(this);
-    }
-
-    public TComma getComma()
-    {
-        return this._comma_;
-    }
-
-    public void setComma(TComma node)
-    {
-        if(this._comma_ != null)
-        {
-            this._comma_.parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
-                node.parent().removeChild(node);
-            }
-
-            node.parent(this);
-        }
-
-        this._comma_ = node;
     }
 
     public TIdentifier getIdentifier()
@@ -93,7 +63,6 @@ public final class AIdAdicional extends PIdAdicional
     public String toString()
     {
         return ""
-            + toString(this._comma_)
             + toString(this._identifier_);
     }
 
@@ -101,12 +70,6 @@ public final class AIdAdicional extends PIdAdicional
     void removeChild(@SuppressWarnings("unused") Node child)
     {
         // Remove child
-        if(this._comma_ == child)
-        {
-            this._comma_ = null;
-            return;
-        }
-
         if(this._identifier_ == child)
         {
             this._identifier_ = null;
@@ -120,12 +83,6 @@ public final class AIdAdicional extends PIdAdicional
     void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
     {
         // Replace child
-        if(this._comma_ == oldChild)
-        {
-            setComma((TComma) newChild);
-            return;
-        }
-
         if(this._identifier_ == oldChild)
         {
             setIdentifier((TIdentifier) newChild);

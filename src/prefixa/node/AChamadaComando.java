@@ -8,7 +8,6 @@ import prefixa.analysis.*;
 public final class AChamadaComando extends PComando
 {
     private PChamada _chamada_;
-    private TSemicolon _semicolon_;
 
     public AChamadaComando()
     {
@@ -16,13 +15,10 @@ public final class AChamadaComando extends PComando
     }
 
     public AChamadaComando(
-        @SuppressWarnings("hiding") PChamada _chamada_,
-        @SuppressWarnings("hiding") TSemicolon _semicolon_)
+        @SuppressWarnings("hiding") PChamada _chamada_)
     {
         // Constructor
         setChamada(_chamada_);
-
-        setSemicolon(_semicolon_);
 
     }
 
@@ -30,8 +26,7 @@ public final class AChamadaComando extends PComando
     public Object clone()
     {
         return new AChamadaComando(
-            cloneNode(this._chamada_),
-            cloneNode(this._semicolon_));
+            cloneNode(this._chamada_));
     }
 
     public void apply(Switch sw)
@@ -64,37 +59,11 @@ public final class AChamadaComando extends PComando
         this._chamada_ = node;
     }
 
-    public TSemicolon getSemicolon()
-    {
-        return this._semicolon_;
-    }
-
-    public void setSemicolon(TSemicolon node)
-    {
-        if(this._semicolon_ != null)
-        {
-            this._semicolon_.parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
-                node.parent().removeChild(node);
-            }
-
-            node.parent(this);
-        }
-
-        this._semicolon_ = node;
-    }
-
     @Override
     public String toString()
     {
         return ""
-            + toString(this._chamada_)
-            + toString(this._semicolon_);
+            + toString(this._chamada_);
     }
 
     @Override
@@ -104,12 +73,6 @@ public final class AChamadaComando extends PComando
         if(this._chamada_ == child)
         {
             this._chamada_ = null;
-            return;
-        }
-
-        if(this._semicolon_ == child)
-        {
-            this._semicolon_ = null;
             return;
         }
 
@@ -123,12 +86,6 @@ public final class AChamadaComando extends PComando
         if(this._chamada_ == oldChild)
         {
             setChamada((PChamada) newChild);
-            return;
-        }
-
-        if(this._semicolon_ == oldChild)
-        {
-            setSemicolon((TSemicolon) newChild);
             return;
         }
 

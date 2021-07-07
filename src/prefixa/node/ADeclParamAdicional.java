@@ -7,7 +7,6 @@ import prefixa.analysis.*;
 @SuppressWarnings("nls")
 public final class ADeclParamAdicional extends PDeclParamAdicional
 {
-    private TBarraId _barraId_;
     private PDeclParametro _declParametro_;
 
     public ADeclParamAdicional()
@@ -16,12 +15,9 @@ public final class ADeclParamAdicional extends PDeclParamAdicional
     }
 
     public ADeclParamAdicional(
-        @SuppressWarnings("hiding") TBarraId _barraId_,
         @SuppressWarnings("hiding") PDeclParametro _declParametro_)
     {
         // Constructor
-        setBarraId(_barraId_);
-
         setDeclParametro(_declParametro_);
 
     }
@@ -30,38 +26,12 @@ public final class ADeclParamAdicional extends PDeclParamAdicional
     public Object clone()
     {
         return new ADeclParamAdicional(
-            cloneNode(this._barraId_),
             cloneNode(this._declParametro_));
     }
 
     public void apply(Switch sw)
     {
         ((Analysis) sw).caseADeclParamAdicional(this);
-    }
-
-    public TBarraId getBarraId()
-    {
-        return this._barraId_;
-    }
-
-    public void setBarraId(TBarraId node)
-    {
-        if(this._barraId_ != null)
-        {
-            this._barraId_.parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
-                node.parent().removeChild(node);
-            }
-
-            node.parent(this);
-        }
-
-        this._barraId_ = node;
     }
 
     public PDeclParametro getDeclParametro()
@@ -93,7 +63,6 @@ public final class ADeclParamAdicional extends PDeclParamAdicional
     public String toString()
     {
         return ""
-            + toString(this._barraId_)
             + toString(this._declParametro_);
     }
 
@@ -101,12 +70,6 @@ public final class ADeclParamAdicional extends PDeclParamAdicional
     void removeChild(@SuppressWarnings("unused") Node child)
     {
         // Remove child
-        if(this._barraId_ == child)
-        {
-            this._barraId_ = null;
-            return;
-        }
-
         if(this._declParametro_ == child)
         {
             this._declParametro_ = null;
@@ -120,12 +83,6 @@ public final class ADeclParamAdicional extends PDeclParamAdicional
     void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
     {
         // Replace child
-        if(this._barraId_ == oldChild)
-        {
-            setBarraId((TBarraId) newChild);
-            return;
-        }
-
         if(this._declParametro_ == oldChild)
         {
             setDeclParametro((PDeclParametro) newChild);

@@ -103,7 +103,6 @@ public class Semantico extends DepthFirstAdapter{
 				Categoria.PARAMETRO, 
 				node.getAType().toString(), 
 				null);
-		//Verifica se o parâmetro foi definido.
 		if(tabelaSimbolos.get(escopoAtual).contains(simb))
 			System.err.println("[ linha "+ node.getId().getLine() + " ] O parâmetro " + simb.getId() + " já foi definido escopo " + escopoAtual+".");
 		else

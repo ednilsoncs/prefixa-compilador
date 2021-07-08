@@ -1,6 +1,7 @@
 package prefixa;
 
 import prefixa.node.*;
+import org.sablecc.sablecc.analysis.DepthFirstAdapter;
 import prefixa.analysis.*;
 
 public class ASTPrinter extends DepthFirstAdapter {

@@ -1,13 +1,13 @@
 package prefixa.semantico;
 import java.util.LinkedList;
-import java.util.LinkedList;
 import prefixa.node.Start;
 
 import prefixa.analysis.DepthFirstAdapter;
 import prefixa.node.ABlocoFuncao;
-import prefixa.none.ADeclFuncao;
+import prefixa.node.AChamada;
 import prefixa.node.ADeclParametro;
 import prefixa.node.ADeclVar;
+import prefixa.node.ATipoDeclFunc;
 
 public class Semantico extends DepthFirstAdapter{
   private LinkedList<LinkedList<Simbolo>> tabelaSimbolos;
@@ -31,17 +31,17 @@ public class Semantico extends DepthFirstAdapter{
 	}
   
   @Override
-	public void inATipoDeclFunc(ADeclFuncao node) {
-		String idFuncao = node.getId().getText();
-		Simbolo simb = new Simbolo(node.getId().getText(),
+	public void inATipoDeclFunc(ATipoDeclFunc node) {
+		String idFuncao = node.getIdentifier().getText();
+		Simbolo simb = new Simbolo(node.getIdentifier().getText(),
 								   escopoRaiz,
 								   Categoria.FUNCAO,
-								   node.getAType().toString(),
+								   node.getTipo().toString(),
 								   null);
 		
 
 		if(tabelaSimbolos.get(escopoRaiz).contains(simb))
-			System.err.println("[ linha "+ node.getId().getLine() + " ] Já existe uma função " + idFuncao + " definida.");
+			System.err.println("[ linha "+ node.getIdentifier().getLine() + " ] Já existe uma função " + idFuncao + " definida.");
 		else 
 			tabelaSimbolos.get(escopoRaiz).push(simb);		
 	}
@@ -51,7 +51,7 @@ public class Semantico extends DepthFirstAdapter{
 
 	@Override
 	public void inAChamada(AChamada node) {
-		Simbolo simb = new Simbolo(node.getId().getText(), 
+		Simbolo simb = new Simbolo(node.getIdentifier().getText(), 
 								  escopoRaiz,
 								  Categoria.FUNCAO,
 								  null,
@@ -59,7 +59,7 @@ public class Semantico extends DepthFirstAdapter{
 		
 
 		if(!tabelaSimbolos.get(escopoRaiz).contains(simb) && !tabelaSimbolos.get(escopoAtual).contains(simb))
-			System.err.println("[ linha "+ node.getId().getLine() + " ] A função " + simb.getId() + " não foi definida.");
+			System.err.println("[ linha "+ node.getIdentifier().getLine() + " ] A função " + simb.getId() + " não foi definida.");
 		
 		isChamadaFunc = true;
 	}
@@ -69,7 +69,7 @@ public class Semantico extends DepthFirstAdapter{
 		isChamadaFunc = false;
 
 		if(tabelaSimbolos.get(escopoAtual-1).size() != qtParamsFunc)
-			System.err.println("[ linha "+ node.getId().getLine() + " ] O numero de parâmetros passado na função " + node.getId() + " não condiz com sua declaração.");
+			System.err.println("[ linha "+ node.getIdentifier().getLine() + " ] O numero de parâmetros passado na função " + node.getIdentifier() + " não condiz com sua declaração.");
 		
 		qtParamsFunc = 0;
 		
@@ -80,14 +80,14 @@ public class Semantico extends DepthFirstAdapter{
 	
 	@Override
 	public void inADeclVar(ADeclVar node) {
-		Simbolo simb = new Simbolo(node.getId().getText(), 
+		Simbolo simb = new Simbolo(node.getIdentifier().getText(), 
 								  escopoAtual, 
 								  Categoria.PARAMETRO, 
 								  null, 
 								  null);
 		
 		if(!tabelaSimbolos.get(escopoAtual).contains(simb))
-			System.err.println("[ linha "+ node.getId().getLine() + " ] A variável " + simb.getId() + " não foi definida no escopo atual.");
+			System.err.println("[ linha "+ node.getIdentifier().getLine() + " ] A variável " + simb.getId() + " não foi definida no escopo atual.");
 		
 		if(isChamadaFunc)
 			qtParamsFunc++;
@@ -98,13 +98,13 @@ public class Semantico extends DepthFirstAdapter{
 	
 	@Override
 	public void inADeclParametro(ADeclParametro node) {
-		Simbolo simb = new Simbolo(node.getId().getText(), 
+		Simbolo simb = new Simbolo(node.getIdentifier().getText(), 
 				escopoAtual, 
 				Categoria.PARAMETRO, 
-				node.getAType().toString(), 
+				node.getTipo().toString(), 
 				null);
 		if(tabelaSimbolos.get(escopoAtual).contains(simb))
-			System.err.println("[ linha "+ node.getId().getLine() + " ] O parâmetro " + simb.getId() + " já foi definido escopo " + escopoAtual+".");
+			System.err.println("[ linha "+ node.getIdentifier().getLine() + " ] O parâmetro " + simb.getId() + " já foi definido escopo " + escopoAtual+".");
 		else
 			tabelaSimbolos.get(escopoAtual).add(simb);
 	}

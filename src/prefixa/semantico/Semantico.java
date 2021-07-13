@@ -5,8 +5,10 @@ import prefixa.node.Start;
 import prefixa.analysis.DepthFirstAdapter;
 import prefixa.node.ABlocoFuncao;
 import prefixa.node.AChamada;
+import prefixa.node.AComandoAtribComando;
 import prefixa.node.ADeclParametro;
 import prefixa.node.ADeclVar;
+import prefixa.node.ASomaOperacao;
 import prefixa.node.ATipoDeclFunc;
 
 public class Semantico extends DepthFirstAdapter{
@@ -49,8 +51,41 @@ public class Semantico extends DepthFirstAdapter{
 	@Override
 	public void inAComandoAtribComando(AComandoAtribComando node){
 		
+		
 	}
 
+	@Override
+	public void inAMultOperacao(AMultOperacao node){
+
+	}
+
+	public void inADivOperacao(ADivOperacao node){
+
+	}
+
+
+	public void inAMenosOperacao(AMenosOperacao node){
+
+	}
+
+	public void inASomaOperacao(ASomaOperacao node){
+		Simbolo simb = new Simbolo(node.getStmt(),
+				   escopoRaiz,
+				   Categoria.FUNCAO,
+				   null,
+				   null);
+		
+		
+		setNodeInt(node, getNodeInt(node.getLeft())
+             + getNodeInt(node.getRight()));
+		
+		
+         System.out.println("Avaliando op com os seguintes argumentos " + "("
+             + node.getStmt() + ", [" + node.getStmtR() + " ])");
+   
+        tabelaSimbolos.get(escopoRaiz).push(simb);
+        System.out.println("" + getNodeInt(node));
+	}
 
 	@Override
 	public void inAChamada(AChamada node) {

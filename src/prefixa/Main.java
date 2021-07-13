@@ -13,7 +13,7 @@ public class Main
 	{
 		try
 		{
-			String arquivo = "teste/code-1.pfx";
+			String arquivo = "teste/code-2.pfx";
 
 			Lexer lexer =
 					new Lexer(

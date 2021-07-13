@@ -46,8 +46,11 @@ public class Semantico extends DepthFirstAdapter{
 			tabelaSimbolos.get(escopoRaiz).push(simb);		
 	}
   
-  
-  
+	@Override
+	public void inAComandoAtribComando(AComandoAtribComando node){
+		
+	}
+
 
 	@Override
 	public void inAChamada(AChamada node) {
@@ -108,7 +111,7 @@ public class Semantico extends DepthFirstAdapter{
 		else
 			tabelaSimbolos.get(escopoAtual).add(simb);
 	}
-  
+
   
   @Override
 	public void inStart(Start node) {

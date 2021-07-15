@@ -3,13 +3,13 @@ import java.util.LinkedList;
 import prefixa.node.Start;
 
 import prefixa.analysis.DepthFirstAdapter;
+import prefixa.node.ABlocoComando;
 import prefixa.node.ABlocoFuncao;
 import prefixa.node.AChamada;
-import prefixa.node.AComandoAtribComando;
 import prefixa.node.ADeclParametro;
 import prefixa.node.ADeclVar;
-import prefixa.node.ASomaOperacao;
 import prefixa.node.ATipoDeclFunc;
+import prefixa.node.ANoneDeclFunc;
 
 public class Semantico extends DepthFirstAdapter{
   private LinkedList<LinkedList<Simbolo>> tabelaSimbolos;
@@ -25,6 +25,12 @@ public class Semantico extends DepthFirstAdapter{
 		isChamadaFunc = false;
 	}
   
+	@Override
+	public void inABlocoComando(ABlocoComando node)
+  {
+		escopoAtual++;
+		tabelaSimbolos.add(new LinkedList<Simbolo>());
+  }
   
   @Override
 	public void inABlocoFuncao(ABlocoFuncao node) {
@@ -47,6 +53,23 @@ public class Semantico extends DepthFirstAdapter{
 		else 
 			tabelaSimbolos.get(escopoRaiz).push(simb);		
 	}
+  
+  
+  @Override
+  public void inANoneDeclFunc(ANoneDeclFunc node) {
+ 		String idFuncao = node.getIdentifier().getText();
+ 		Simbolo simb = new Simbolo(node.getIdentifier().getText(),
+ 								   escopoRaiz,
+ 								   Categoria.FUNCAO,
+ 								   null,
+ 								   null);
+ 		
+
+ 		if(tabelaSimbolos.get(escopoRaiz).contains(simb))
+ 			System.err.println("[ linha "+ node.getIdentifier().getLine() + " ] Já existe uma função " + idFuncao + " definida.");
+ 		else 
+ 			tabelaSimbolos.get(escopoRaiz).push(simb);		
+ 	}
 
 
 	@Override
@@ -122,8 +145,8 @@ public class Semantico extends DepthFirstAdapter{
 	public void outStart(Start node) {
 		System.out.println("");
 		System.out.println("-------------------------------------------------");
-      System.out.println("Fim da análise semântica");
-      System.out.println("-------------------------------------------------");
+        System.out.println("Fim da análise semântica");
+        System.out.println("-------------------------------------------------");
 	}
 	
 	
